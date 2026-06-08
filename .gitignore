@@ -1,0 +1,19 @@
+# Xcode
+DerivedData/
+build/
+*.xcarchive
+*.ipa
+*.xcuserstate
+xcuserdata/
+.DS_Store
+
+# Local Python tooling (icon/screenshot scripts — not part of the app)
+.pip_packages/
+__pycache__/
+*.pyc
+
+# Stray exports (keep App Store assets under AppStoreScreenshots/)
+Simulator Screenshot*.png
+AppIcon-1024-preview.png
+timer/AppIcon *.png
+timer/AppIcon-source-flat.png

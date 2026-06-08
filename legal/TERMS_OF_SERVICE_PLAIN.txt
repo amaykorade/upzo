@@ -1,0 +1,148 @@
+TERMS OF SERVICE
+
+Last updated: May 24, 2026
+
+App name: Upzo
+Developer: Amay Ramaling Korade
+Contact: amaykorade5@gmail.com
+
+
+INTRODUCTION
+
+These Terms of Service ("Terms") are the rules for using Upzo ("the App"). By downloading, subscribing to, or using the App, you agree to these Terms. If you do not agree, do not use the App.
+
+
+1. WHAT THE APP DOES
+
+Upzo is a wake-up alarm app. To turn off an alarm, you may need to finish a "mission" first — for example shake your phone, take a photo, say a phrase out loud, solve a math problem, walk a number of steps, or type a phrase.
+
+The App is a lifestyle and productivity tool. It is NOT a medical device. It does not diagnose, treat, or prevent any health problem. You are responsible for waking up on time and for your own safety.
+
+
+2. WHO CAN USE THE APP
+
+You must be at least 13 years old (or the minimum age in your country). If you are under 18, you should use the App with a parent or guardian's permission.
+
+
+3. UPZO SUBSCRIPTION
+
+3.1 Subscription required
+
+You need an active Upzo subscription to set alarms and use wake-up missions after you finish the in-app setup, unless we say otherwise in the App.
+
+
+3.2 Payment through Apple
+
+- Payment is charged to your Apple ID account.
+- Your subscription renews automatically unless you cancel at least 24 hours before the end of the current period.
+- Apple may charge you for renewal within 24 hours before the period ends.
+- To cancel: open iPhone Settings, tap your Apple ID, tap Subscriptions, select Upzo, then Cancel.
+- Refunds are handled by Apple, not by us. Visit reportaproblem.apple.com for refund requests.
+- Prices can vary by country and may change over time. New prices apply to future billing where the law allows.
+
+
+3.3 Free trials
+
+If we offer a free trial or discounted first period, the App Store will show the details when you subscribe. When the trial ends, you will be charged unless you cancel before it ends.
+
+
+4. YOUR RESPONSIBILITIES
+
+You agree to:
+
+- Use the App legally and for personal use only
+- Give accurate information if you contact support or sign in
+- Use missions safely — do NOT use camera, motion, or voice missions while driving or in dangerous situations
+- Keep your iPhone secure with a passcode or biometrics
+- Not hack, copy, or misuse the App
+
+You are responsible for:
+
+- The alarm times you set and what happens if you miss them
+- Permissions you allow on your phone
+- Having a backup plan to wake up for important events (work, school, flights, medical appointments)
+
+
+5. ALARMS MAY FAIL
+
+Alarms might not ring because of low battery, Do Not Disturb, Focus modes, silent mode, iOS limits, or if you force-quit the App. We do not promise that any alarm will work or that you will wake up on time.
+
+Always have a backup wake-up plan for important days.
+
+
+6. ACCOUNTS AND SIGN IN
+
+Sign in with Apple is optional. You must follow Apple's rules. You are responsible for what happens on your device.
+
+Delete account in the App removes sign-in on this device and resets your local account ID, as described in the App. It does not automatically delete your alarms.
+
+We do not run a separate cloud server for accounts today. Your data stays on your device unless a future update says otherwise.
+
+
+7. PRIVACY
+
+Your use of the App is also governed by our Privacy Policy. You can find the link in the App (Settings, then Legal) and on the App Store.
+
+
+8. OWNERSHIP
+
+The App, its design, code, and branding belong to Amay Ramaling Korade or our licensors. You may use the App on Apple devices you own, under the App Store rules. You may not copy, sell, or modify the App except where the law allows.
+
+
+9. YOUR PHOTOS AND VOICE
+
+If you use photo or voice missions:
+
+- You own your photos and recordings
+- We only process them on your device to run the mission
+- We do not upload mission photos or audio to our servers in the current version
+- Do not use illegal or offensive content
+
+
+10. NO WARRANTIES
+
+THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE." WE DO NOT PROMISE THAT THE APP WILL ALWAYS WORK, BE ERROR-FREE, OR BE SECURE. WE DISCLAIM ALL WARRANTIES TO THE FULLEST EXTENT ALLOWED BY LAW.
+
+
+11. LIMIT ON OUR LIABILITY
+
+TO THE FULLEST EXTENT ALLOWED BY LAW, WE ARE NOT LIABLE FOR INDIRECT OR SPECIAL DAMAGES, LOST PROFITS, OR DATA LOSS FROM USING THE APP — INCLUDING MISSED ALARMS OR FAILED MISSIONS.
+
+OUR TOTAL LIABILITY FOR ANY CLAIM IS LIMITED TO THE GREATER OF: (A) WHAT YOU PAID FOR UPZO IN THE 12 MONTHS BEFORE THE CLAIM, OR (B) FIFTY US DOLLARS ($50).
+
+Some countries do not allow these limits; in those cases, the limit applies as much as the law allows.
+
+
+12. YOU AGREE TO PROTECT US
+
+You agree to cover us for claims caused by your misuse of the App, breaking these Terms, or violating someone else's rights.
+
+
+13. ENDING USE
+
+We may stop offering the App or subscriptions at any time. You can stop anytime by deleting the App and cancelling your subscription in Apple settings. Sections about warranties, liability, and indemnity still apply after you stop.
+
+
+14. CHANGES TO THESE TERMS
+
+We may update these Terms. We will post the new version at the same web link and update the date. If you keep using the App after changes, you accept the new Terms where the law allows.
+
+
+15. LAW AND DISPUTES
+
+These Terms are governed by the laws of India. Courts in India have jurisdiction over disputes, unless your country's consumer laws require otherwise.
+
+
+16. CONTACT
+
+Email: amaykorade5@gmail.com
+Developer: Amay Ramaling Korade
+
+
+17. APPLE APP STORE
+
+If you got the App from Apple's App Store, you also agree to Apple's standard Licensed Application End User License Agreement (available at apple.com/legal/internet-services/itunes/dev/stdeula/).
+
+Apple is not responsible for the App. Apple does not have to provide support for the App.
+
+Apple and its related companies may enforce these Terms against you as third-party beneficiaries.

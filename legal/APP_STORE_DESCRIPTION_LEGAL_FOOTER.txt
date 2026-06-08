@@ -1,0 +1,12 @@
+--- Paste at the END of your App Store Connect → App Description (English) ---
+
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+
+Subscription Terms: https://steadfast-agate-517.notion.site/TERMS-OF-SERVICE-36a70f01c48a8027a102eb88b681f997
+
+--- End paste ---
+
+Notes:
+• Keep "Apply Apple's standard EULA" checked in App Information → License Agreement.
+• Privacy Policy URL (separate field): https://steadfast-agate-517.notion.site/Privacy-Policy-36a70f01c48a800b9679f59999dae61c
+• Support URL: https://steadfast-agate-517.notion.site/UPZO-SUPPORT-36b70f01c48a80808358cd3e7022fa9a

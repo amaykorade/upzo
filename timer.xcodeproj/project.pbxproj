@@ -6,8 +6,47 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8D8EA4962FB501F3008F36A1 /* WakeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F100F1012FB257C7007A95D3 /* WakeCore */; };
+		8D8EA4972FB501F3008F36A1 /* WakeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F100F1022FB257C7007A95D3 /* WakeCore */; };
+		F100F1112FB257C7007A95D3 /* TimerWakeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F100F1042FB257C7007A95D3 /* TimerWakeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F100F10F2FB257C9007A95D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D0450DE2FB257C7007A95D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F100F1052FB257C7007A95D3;
+			remoteInfo = TimerWakeWidget;
+		};
+		F100F11C2FB257C9007A95D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D0450DE2FB257C7007A95D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D0450E52FB257C7007A95D3;
+			remoteInfo = timer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F100F1102FB257C7007A95D3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F100F1112FB257C7007A95D3 /* TimerWakeWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8D0450E62FB257C7007A95D3 /* timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = timer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F100F1042FB257C7007A95D3 /* TimerWakeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TimerWakeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F100F1132FB257C7007A95D3 /* timerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = timerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +55,36 @@
 			path = timer;
 			sourceTree = "<group>";
 		};
+		F100F1032FB257C7007A95D3 /* TimerWakeWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TimerWakeWidget;
+			sourceTree = "<group>";
+		};
+		F100F1122FB257C7007A95D3 /* timerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = timerTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8D0450E32FB257C7007A95D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D8EA4962FB501F3008F36A1 /* WakeCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F100F1072FB257C7007A95D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D8EA4972FB501F3008F36A1 /* WakeCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F100F1162FB257C7007A95D3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				8D0450E82FB257C7007A95D3 /* timer */,
+				F100F1032FB257C7007A95D3 /* TimerWakeWidget */,
+				F100F1122FB257C7007A95D3 /* timerTests */,
 				8D0450E72FB257C7007A95D3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				8D0450E62FB257C7007A95D3 /* timer.app */,
+				F100F1042FB257C7007A95D3 /* TimerWakeWidget.appex */,
+				F100F1132FB257C7007A95D3 /* timerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,21 +123,70 @@
 			buildPhases = (
 				8D0450E22FB257C7007A95D3 /* Sources */,
 				8D0450E32FB257C7007A95D3 /* Frameworks */,
+				F100F1102FB257C7007A95D3 /* Embed Foundation Extensions */,
 				8D0450E42FB257C7007A95D3 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F100F10E2FB257C9007A95D3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8D0450E82FB257C7007A95D3 /* timer */,
 			);
 			name = timer;
 			packageProductDependencies = (
+				F100F1012FB257C7007A95D3 /* WakeCore */,
 			);
 			productName = timer;
 			productReference = 8D0450E62FB257C7007A95D3 /* timer.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F100F1052FB257C7007A95D3 /* TimerWakeWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F100F1092FB257C9007A95D3 /* Build configuration list for PBXNativeTarget "TimerWakeWidget" */;
+			buildPhases = (
+				F100F1062FB257C7007A95D3 /* Sources */,
+				F100F1072FB257C7007A95D3 /* Frameworks */,
+				F100F1082FB257C7007A95D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F100F1032FB257C7007A95D3 /* TimerWakeWidget */,
+			);
+			name = TimerWakeWidget;
+			packageProductDependencies = (
+				F100F1022FB257C7007A95D3 /* WakeCore */,
+			);
+			productName = TimerWakeWidget;
+			productReference = F100F1042FB257C7007A95D3 /* TimerWakeWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F100F1142FB257C7007A95D3 /* timerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F100F1182FB257C9007A95D3 /* Build configuration list for PBXNativeTarget "timerTests" */;
+			buildPhases = (
+				F100F1152FB257C7007A95D3 /* Sources */,
+				F100F1162FB257C7007A95D3 /* Frameworks */,
+				F100F1172FB257C7007A95D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F100F11B2FB257C9007A95D3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F100F1122FB257C7007A95D3 /* timerTests */,
+			);
+			name = timerTests;
+			packageProductDependencies = (
+			);
+			productName = timerTests;
+			productReference = F100F1132FB257C7007A95D3 /* timerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -83,6 +201,13 @@
 					8D0450E52FB257C7007A95D3 = {
 						CreatedOnToolsVersion = 26.3;
 					};
+					F100F1052FB257C7007A95D3 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					F100F1142FB257C7007A95D3 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 8D0450E52FB257C7007A95D3;
+					};
 				};
 			};
 			buildConfigurationList = 8D0450E12FB257C7007A95D3 /* Build configuration list for PBXProject "timer" */;
@@ -94,18 +219,37 @@
 			);
 			mainGroup = 8D0450DD2FB257C7007A95D3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8D0450E72FB257C7007A95D3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8D0450E52FB257C7007A95D3 /* timer */,
+				F100F1052FB257C7007A95D3 /* TimerWakeWidget */,
+				F100F1142FB257C7007A95D3 /* timerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D0450E42FB257C7007A95D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F100F1082FB257C7007A95D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F100F1172FB257C7007A95D3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +266,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F100F1062FB257C7007A95D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F100F1152FB257C7007A95D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F100F10E2FB257C9007A95D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F100F1052FB257C7007A95D3 /* TimerWakeWidget */;
+			targetProxy = F100F10F2FB257C9007A95D3 /* PBXContainerItemProxy */;
+		};
+		F100F11B2FB257C9007A95D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D0450E52FB257C7007A95D3 /* timer */;
+			targetProxy = F100F11C2FB257C9007A95D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8D0450EF2FB257C9007A95D3 /* Debug */ = {
@@ -163,7 +334,7 @@
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -225,7 +396,7 @@
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -246,42 +417,63 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = timer/timer.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Info-alarmkit.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Upzo;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				"INFOPLIST_KEY_NSAlarmKitUsageDescription[sdk=iphoneos*]" = "We'll schedule alerts for alarms you create within our app.";
+				"INFOPLIST_KEY_NSAlarmKitUsageDescription[sdk=iphonesimulator*]" = "We'll schedule alerts for alarms you create within our app.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				"INFOPLIST_KEY_NSCameraUsageDescription[sdk=iphoneos*]" = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				"INFOPLIST_KEY_NSCameraUsageDescription[sdk=iphonesimulator*]" = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone is used for wake-up missions that verify your voice.";
+				"INFOPLIST_KEY_NSMicrophoneUsageDescription[sdk=iphoneos*]" = "The microphone is used for wake-up missions that verify your voice.";
+				"INFOPLIST_KEY_NSMicrophoneUsageDescription[sdk=iphonesimulator*]" = "The microphone is used for wake-up missions that verify your voice.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSMotionUsageDescription[sdk=iphoneos*]" = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSMotionUsageDescription[sdk=iphonesimulator*]" = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSPhotoLibraryUsageDescription[sdk=iphoneos*]" = "Pick a photo to complete your wake-up mission.";
+				"INFOPLIST_KEY_NSPhotoLibraryUsageDescription[sdk=iphonesimulator*]" = "Pick a photo to complete your wake-up mission.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				"INFOPLIST_KEY_NSSpeechRecognitionUsageDescription[sdk=iphoneos*]" = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				"INFOPLIST_KEY_NSSpeechRecognitionUsageDescription[sdk=iphonesimulator*]" = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -290,42 +482,158 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = timer/timer.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Info-alarmkit.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Upzo;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				"INFOPLIST_KEY_NSAlarmKitUsageDescription[sdk=iphoneos*]" = "We'll schedule alerts for alarms you create within our app.";
+				"INFOPLIST_KEY_NSAlarmKitUsageDescription[sdk=iphonesimulator*]" = "We'll schedule alerts for alarms you create within our app.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				"INFOPLIST_KEY_NSCameraUsageDescription[sdk=iphoneos*]" = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				"INFOPLIST_KEY_NSCameraUsageDescription[sdk=iphonesimulator*]" = "The camera is used for wake-up missions such as photo verification and counting pushups.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone is used for wake-up missions that verify your voice.";
+				"INFOPLIST_KEY_NSMicrophoneUsageDescription[sdk=iphoneos*]" = "The microphone is used for wake-up missions that verify your voice.";
+				"INFOPLIST_KEY_NSMicrophoneUsageDescription[sdk=iphonesimulator*]" = "The microphone is used for wake-up missions that verify your voice.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSMotionUsageDescription[sdk=iphoneos*]" = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSMotionUsageDescription[sdk=iphonesimulator*]" = "Motion is used to detect shakes for your wake-up mission.";
+				"INFOPLIST_KEY_NSPhotoLibraryUsageDescription[sdk=iphoneos*]" = "Pick a photo to complete your wake-up mission.";
+				"INFOPLIST_KEY_NSPhotoLibraryUsageDescription[sdk=iphonesimulator*]" = "Pick a photo to complete your wake-up mission.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				"INFOPLIST_KEY_NSSpeechRecognitionUsageDescription[sdk=iphoneos*]" = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				"INFOPLIST_KEY_NSSpeechRecognitionUsageDescription[sdk=iphonesimulator*]" = "Speech recognition is used so you can dismiss the alarm by saying a wake-up phrase.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.7;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F100F10A2FB257C9007A95D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = A4KU8C88T4;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TimerWakeWidgetInfo.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.TimerWakeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F100F10B2FB257C9007A95D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = A4KU8C88T4;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TimerWakeWidgetInfo.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.TimerWakeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F100F1192FB257C9007A95D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = A4KU8C88T4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timer.app/timer";
+			};
+			name = Debug;
+		};
+		F100F11A2FB257C9007A95D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
+				DEVELOPMENT_TEAM = A4KU8C88T4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/timer.app/timer";
 			};
 			name = Release;
 		};
@@ -350,7 +658,45 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		F100F1092FB257C9007A95D3 /* Build configuration list for PBXNativeTarget "TimerWakeWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F100F10A2FB257C9007A95D3 /* Debug */,
+				F100F10B2FB257C9007A95D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F100F1182FB257C9007A95D3 /* Build configuration list for PBXNativeTarget "timerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F100F1192FB257C9007A95D3 /* Debug */,
+				F100F11A2FB257C9007A95D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = WakeCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F100F1012FB257C7007A95D3 /* WakeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */;
+			productName = WakeCore;
+		};
+		F100F1022FB257C7007A95D3 /* WakeCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */;
+			productName = WakeCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8D0450DE2FB257C7007A95D3 /* Project object */;
 }

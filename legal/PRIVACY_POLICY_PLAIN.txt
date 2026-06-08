@@ -1,0 +1,169 @@
+PRIVACY POLICY
+
+Last updated: May 24, 2026
+
+App name: Upzo
+Developer: Amay Ramaling Korade
+Contact: amaykorade5@gmail.com
+
+
+INTRODUCTION
+
+This Privacy Policy explains how Upzo ("the App", "we", "us") handles your information when you use our iPhone wake-up alarm app. This includes wake-up missions, notifications, optional sign-in, and Upzo subscriptions.
+
+By using the App, you agree to this Privacy Policy. If you do not agree, please do not use the App.
+
+
+SUMMARY
+
+- Upzo helps you wake up using alarms and optional missions (for example: shake your phone, take a photo, say a phrase, solve math, walk steps, or type a phrase).
+
+- Most of your data stays on your iPhone (alarms, settings, wake history, and onboarding answers).
+
+- We do not sell your personal information.
+
+- We do not use your data for advertising tracking across other apps.
+
+- If you choose Sign in with Apple, Apple may share basic account information with us (such as a user ID, and optionally your name or email if you allow it).
+
+- Subscriptions are handled by Apple. We do not receive your credit or debit card number.
+
+
+1. INFORMATION WE COLLECT AND USE
+
+1.1 Information stored on your device
+
+The App stores the following information on your iPhone to work properly:
+
+- Alarm schedules (time, repeat days, sound, mission type) — to ring your alarms
+- Alarm title and settings — to personalize your experience
+- Wake-up mission history — for insights and streak features
+- App preferences (sounds, strictness, notification settings) — to remember your choices
+- Onboarding answers (such as your first name, age range, and wake goals) — to build your wake-up plan
+- A local account ID — for optional sign-in and account settings
+
+This information stays on your device. We do not upload it to our own servers in the current version of the App. If we add cloud sync in the future, we will update this policy.
+
+
+1.2 Sign in with Apple (optional)
+
+If you use Sign in with Apple:
+
+- We may receive a user identifier from Apple, and optionally your email address and name (only if you choose to share them).
+- We use this only for sign-in and account features on your device.
+- Apple handles authentication. See Apple's Privacy Policy at apple.com/legal/privacy.
+
+We never receive your Apple ID password.
+
+
+1.3 Device permissions
+
+The App only asks for permissions when a feature needs them:
+
+- Notifications — alarm alerts and optional reminders
+- Alarms (AlarmKit) — system-level alarms on supported iPhones
+- Camera — photo wake-up missions
+- Photo Library — choosing a photo for missions when allowed
+- Microphone — voice wake-up missions
+- Speech Recognition — checking that you said your wake-up phrase
+- Motion — shake and step-count missions
+
+You can turn off any permission in iPhone Settings or in the App.
+
+
+1.4 Subscriptions and payments
+
+If you buy Upzo:
+
+- Apple processes all payments through the App Store.
+- We may receive whether your subscription is active, but not your full card details.
+- Apple's privacy policy applies to payment processing.
+
+
+1.5 What we do not collect
+
+We do not intentionally collect:
+
+- Your GPS location for advertising
+- Your contacts, calendar, or web browsing history
+- Medical or health records (this App is not a medical device)
+- Payment card numbers
+
+
+1.6 When you contact us
+
+If you email amaykorade5@gmail.com, we receive whatever you send us (such as your email address and message) so we can reply.
+
+
+2. HOW WE USE YOUR INFORMATION
+
+We use information to:
+
+- Provide alarms, missions, insights, and subscription features
+- Show your wake history and streaks on your device
+- Send notifications you turn on
+- Run optional Sign in with Apple
+- Answer support emails
+- Follow the law and protect our rights
+
+We do not use your information for third-party ad tracking.
+
+
+3. SHARING YOUR INFORMATION
+
+We do not sell your personal information.
+
+We may share information only when:
+
+- Apple needs it for the App Store, Sign in with Apple, payments, notifications, or AlarmKit (under Apple's rules)
+- The law requires it (court order, legal process, or safety)
+- Our business is sold or merged (we will give notice where required)
+
+
+4. HOW LONG WE KEEP DATA
+
+- Data on your iPhone stays until you delete it in the App, use Delete account in settings, or remove the App from your phone.
+- Support emails are kept only as long as needed to help you.
+- If we add cloud features later, we will update this policy.
+
+
+5. YOUR CHOICES
+
+Depending on where you live, you may have rights to access, fix, or delete your data.
+
+In the App you can:
+
+- Delete alarms and history anytime, or delete the whole App
+- Go to Settings, then Account settings, then Delete account — this removes sign-in on this device and resets your local account ID (your alarms stay unless you delete them separately)
+- Change notifications and permissions in iPhone Settings
+- Cancel subscriptions in iPhone Settings, then Apple ID, then Subscriptions
+
+For privacy requests, email amaykorade5@gmail.com. We will respond within a reasonable time.
+
+
+6. CHILDREN
+
+The App is not for children under 13 (or the minimum age in your country). We do not knowingly collect data from children. If you believe a child gave us information, contact us.
+
+
+7. SECURITY
+
+We use reasonable security for a consumer app. No system is 100% secure. Please use a passcode or Face ID on your iPhone.
+
+
+8. USERS OUTSIDE INDIA
+
+If you use the App outside India, your data is mainly stored on your device. Sign in with Apple or support emails may involve processing in other countries under Apple's rules.
+
+
+9. CHANGES TO THIS POLICY
+
+We may update this Privacy Policy. We will post the new version at the same web link and change the "Last updated" date. If you keep using the App after changes, that means you accept the new policy where the law allows.
+
+
+10. CONTACT
+
+Email: amaykorade5@gmail.com
+Developer: Amay Ramaling Korade
+
+For more details, see the App Privacy section on our App Store page.

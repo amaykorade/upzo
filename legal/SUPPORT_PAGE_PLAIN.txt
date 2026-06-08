@@ -1,0 +1,57 @@
+UPZO — SUPPORT
+
+Last updated: May 2026
+
+App: Upzo
+Developer: Amay Ramaling Korade
+Email: amaykorade5@gmail.com
+
+Published URL (App Store + in-app):
+https://steadfast-agate-517.notion.site/UPZO-SUPPORT-36b70f01c48a80808358cd3e7022fa9a
+
+
+CONTACT US
+
+For help, bugs, or account questions, email us at:
+
+amaykorade5@gmail.com
+
+We usually reply within a few business days. Include your iPhone model and iOS version if you are reporting a bug.
+
+
+COMMON QUESTIONS
+
+Why does Upzo require a subscription?
+Upzo uses mission alarms, insights, and ongoing updates. An active subscription is required after you finish setup. New users may see a free trial offer in the app (eligibility is determined by Apple).
+
+How do I restore my subscription?
+Open Upzo → complete Sign in with Apple if asked → on the subscription screen tap Restore Purchases. Or go to iPhone Settings → Apple ID → Subscriptions and confirm Upzo is active.
+
+How do I cancel?
+iPhone Settings → Apple ID → Subscriptions → Upzo → Cancel Subscription. Cancel at least 24 hours before renewal to avoid being charged for the next period.
+
+Why did my alarm not ring?
+Check notification and alarm permissions in the app, disable Do Not Disturb / Focus for overnight, keep battery charged, and do not force-quit the app before bed. Alarms can fail for system reasons—use a backup plan for critical mornings.
+
+Are my alarms saved in the cloud?
+Alarms and wake history are stored on your iPhone. Sign in with Apple is for account and subscription. Cloud backup of alarms may be added in a future update.
+
+How do I delete my account?
+In the app: Settings → Account settings → delete account (removes sign-in data on this device). This does not cancel your App Store subscription—cancel in iPhone Subscriptions.
+
+
+REFUNDS
+
+App Store purchases and refunds are handled by Apple:
+https://reportaproblem.apple.com
+
+We cannot refund App Store charges directly.
+
+
+LEGAL
+
+Privacy Policy:
+https://steadfast-agate-517.notion.site/Privacy-Policy-36a70f01c48a800b9679f59999dae61c
+
+Terms of Service:
+https://steadfast-agate-517.notion.site/TERMS-OF-SERVICE-36a70f01c48a8027a102eb88b681f997
