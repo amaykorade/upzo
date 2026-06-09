@@ -11,7 +11,7 @@ private enum ObjectHuntPhase {
 
 struct ObjectHuntMissionContent: View {
     let requirements: MissionRequirements
-    var onComplete: () -> Void
+    var onComplete: (HuntObject) -> Void
 
     @StateObject private var camera = ObjectHuntCameraSession()
     @State private var target: HuntObject = HuntObjectCatalog.randomTarget()
@@ -175,7 +175,7 @@ struct ObjectHuntMissionContent: View {
                 if passes {
                     didFinish = true
                     camera.stop()
-                    onComplete()
+                    onComplete(huntTarget)
                 } else {
                     phase = .rejected
                 }

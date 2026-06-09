@@ -130,6 +130,7 @@ struct MissionExecutionView: View {
     @StateObject private var missionStrictHaptics = MissionStrictHaptics()
     @State private var isSchedulingSnooze = false
     @State private var showSuccessCelebration = false
+    @State private var successCelebrationMessage: String?
 
     private var isStrictMission: Bool {
         !allowsDismissWithoutMission && appSettings.missionVerificationLevel == .strict
@@ -155,7 +156,11 @@ struct MissionExecutionView: View {
                 .allowsHitTesting(!showSuccessCelebration)
 
             if showSuccessCelebration {
-                MissionSuccessView(missionTitle: alarm.missionType.title) {
+                MissionSuccessView(
+                    missionTitle: alarm.missionType.title,
+                    celebrationMessage: successCelebrationMessage
+                ) {
+                    successCelebrationMessage = nil
                     onMissionCompleted()
                 }
                 .transition(.opacity.combined(with: .scale(scale: 1.02)))
@@ -226,7 +231,7 @@ struct MissionExecutionView: View {
                 case .objectHunt:
                     ObjectHuntMissionContent(
                         requirements: requirements,
-                        onComplete: handleMissionComplete
+                        onComplete: handleObjectHuntComplete
                     )
                 }
             }
@@ -307,6 +312,11 @@ struct MissionExecutionView: View {
                 missionStrictHaptics.stop()
             }
         }
+    }
+
+    private func handleObjectHuntComplete(_ target: HuntObject) {
+        successCelebrationMessage = HuntObjectCringeLines.randomLine(for: target)
+        handleMissionComplete()
     }
 
     private func handleMissionComplete() {

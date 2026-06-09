@@ -10,6 +10,8 @@ final class SubscriptionStore: ObservableObject {
     @Published private(set) var products: [Product] = []
     @Published private(set) var purchasedProductIDs: Set<String> = []
     @Published private(set) var isLoading = false
+    /// False until the first `refresh()` finishes — avoids flashing the paywall before StoreKit responds.
+    @Published private(set) var hasFinishedInitialEntitlementCheck = false
     @Published private(set) var isPurchasing = false
     @Published private(set) var isEligibleForIntroOffer = false
     @Published var errorMessage: String?
@@ -29,8 +31,10 @@ final class SubscriptionStore: ObservableObject {
         hasActiveSubscription
     }
 
+    /// Active paid plan, or cancelled but still inside the current billing period.
     var hasActiveSubscription: Bool {
-        !purchasedProductIDs.isEmpty
+        if !purchasedProductIDs.isEmpty { return true }
+        return SubscriptionAccessCache.hasValidAccess
     }
 
     var activeProduct: Product? {
@@ -64,7 +68,10 @@ final class SubscriptionStore: ObservableObject {
     func refresh() async {
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        defer {
+            isLoading = false
+            hasFinishedInitialEntitlementCheck = true
+        }
 
         await loadProducts()
         await refreshIntroOfferEligibility()
@@ -170,54 +177,86 @@ final class SubscriptionStore: ObservableObject {
 
     private func updatePurchasedProducts() async {
         var active = Set<String>()
-        var subscriptionStatusAvailable = false
+        var furthestExpiration: Date?
 
-        // Prefer subscription status (handles cancel/clear more reliably than entitlements alone).
+        func markActive(productID: String, expiration: Date?) {
+            active.insert(productID)
+            guard let expiration, expiration > Date() else { return }
+            furthestExpiration = max(furthestExpiration ?? expiration, expiration)
+        }
+
         for product in products where SubscriptionProducts.all.contains(product.id) {
             guard let subscription = product.subscription else { continue }
 
             let statuses: [Product.SubscriptionInfo.Status]
             do {
                 statuses = try await subscription.status
-                subscriptionStatusAvailable = true
             } catch {
                 continue
             }
 
             for status in statuses {
-                switch status.state {
-                case .subscribed, .inGracePeriod, .inBillingRetryPeriod:
-                    if case .verified(let transaction) = status.transaction,
-                       let expiration = transaction.expirationDate,
-                       expiration <= Date() {
-                        continue
-                    }
-                    active.insert(product.id)
-                case .expired, .revoked:
-                    break
-                default:
-                    break
-                }
+                guard grantsAccess(for: status) else { continue }
+                let expiration = expirationDate(from: status)
+                markActive(productID: product.id, expiration: expiration)
             }
         }
 
-        // Fallback only when status API is unavailable (offline / StoreKit error).
-        if !subscriptionStatusAvailable {
-            for await result in Transaction.currentEntitlements {
+        for await result in Transaction.currentEntitlements {
+            guard let transaction = try? checkVerified(result),
+                  SubscriptionProducts.all.contains(transaction.productID),
+                  transaction.revocationDate == nil,
+                  !isExpired(transaction.expirationDate)
+            else { continue }
+
+            markActive(productID: transaction.productID, expiration: transaction.expirationDate)
+        }
+
+        // Cancelled auto-renew can drop entitlements early; history still has the paid-through date.
+        if active.isEmpty {
+            for await result in Transaction.all {
                 guard let transaction = try? checkVerified(result),
                       SubscriptionProducts.all.contains(transaction.productID),
-                      transaction.revocationDate == nil
+                      transaction.revocationDate == nil,
+                      let expiration = transaction.expirationDate,
+                      expiration > Date()
                 else { continue }
 
-                if let expiration = transaction.expirationDate, expiration <= Date() {
-                    continue
-                }
-
-                active.insert(transaction.productID)
+                markActive(productID: transaction.productID, expiration: expiration)
             }
         }
 
         purchasedProductIDs = active
+
+        if let furthestExpiration {
+            SubscriptionAccessCache.save(accessUntil: furthestExpiration)
+        } else if !SubscriptionAccessCache.hasValidAccess {
+            SubscriptionAccessCache.clear()
+        }
+    }
+
+    /// Cancelled plans stay `.subscribed` until Apple marks the period expired.
+    private func grantsAccess(for status: Product.SubscriptionInfo.Status) -> Bool {
+        switch status.state {
+        case .subscribed, .inGracePeriod, .inBillingRetryPeriod:
+            return !isExpired(expirationDate(from: status))
+        case .expired, .revoked:
+            return false
+        default:
+            return false
+        }
+    }
+
+    private func expirationDate(from status: Product.SubscriptionInfo.Status) -> Date? {
+        if case .verified(let transaction) = status.transaction {
+            return transaction.expirationDate
+        }
+        return nil
+    }
+
+    private func isExpired(_ expiration: Date?) -> Bool {
+        guard let expiration else { return false }
+        return expiration <= Date()
     }
 
     private func listenForTransactions() async {

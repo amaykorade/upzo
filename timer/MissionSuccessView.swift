@@ -6,6 +6,7 @@ struct MissionSuccessView: View {
     static let autoDismissSeconds: TimeInterval = 5
 
     let missionTitle: String
+    var celebrationMessage: String?
     var onFinish: () -> Void
 
     @State private var didFinish = false
@@ -59,10 +60,19 @@ struct MissionSuccessView: View {
                         )
                 }
 
-                Text(missionTitle)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.82))
-                    .padding(.top, 4)
+                if let celebrationMessage {
+                    Text(celebrationMessage)
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 8)
+                } else {
+                    Text(missionTitle)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.82))
+                        .padding(.top, 4)
+                }
             }
             .padding(.horizontal, 32)
             .allowsHitTesting(false)

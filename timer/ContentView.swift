@@ -58,6 +58,7 @@ struct ContentView: View {
             .task { await runAlarmAuthorizationListener() }
             .onChange(of: scenePhaseForAccess) { _, _ in handleScenePhaseChange() }
             .onChange(of: subscriptionStore.hasActiveSubscription) { _, isPremium in
+                guard subscriptionStore.hasFinishedInitialEntitlementCheck else { return }
                 if !isPremium { alarmStore.disableAllForExpiredSubscription() }
             }
             .onChange(of: accountStore.isSignedIn) { _, signedIn in
@@ -84,12 +85,16 @@ struct ContentView: View {
 
     private func handleRootAppear() {
         applyReturningUserLaunchShortcutsIfNeeded()
+        Task { await subscriptionStore.refresh() }
         presentMissionIfOwed()
         Task { await retryPresentMissionIfOwed() }
     }
 
     private func handleScenePhaseChange() {
-        Task { await refreshSchedulingAccess() }
+        Task {
+            await subscriptionStore.refresh()
+            await refreshSchedulingAccess()
+        }
         guard scenePhaseForAccess == .active else {
             if scenePhaseForAccess == .background {
                 Task { await WakeDeliveryService.shared.appEnteredBackground(alarmStore: alarmStore) }
@@ -164,6 +169,8 @@ struct ContentView: View {
                     Task { await refreshSchedulingAccess() }
                 }
                 .environmentObject(AccountStore.shared)
+            } else if !subscriptionStore.hasFinishedInitialEntitlementCheck {
+                subscriptionCheckingView
             } else if !subscriptionStore.hasActiveSubscription {
                 SubscriptionPaywallView {
                     Task {
@@ -179,6 +186,16 @@ struct ContentView: View {
                 mainAppTabView
             }
         }
+    }
+
+    private var subscriptionCheckingView: some View {
+        VStack(spacing: 20) {
+            AppLogoView(size: 72, style: .appIcon)
+            ProgressView("Checking your subscription…")
+                .font(.subheadline)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .timerScreenBackground()
     }
 
     @ViewBuilder
