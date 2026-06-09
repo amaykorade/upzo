@@ -23,27 +23,36 @@ final class WakeDeliveryService: ObservableObject {
     /// Called from `OpenWakeMissionIntent` when the user stops a system AlarmKit alert.
     @MainActor
     static func registerMissionOwedFromSystemAlarmTap(kitAlarmIDString: String) {
-        guard let kitId = UUID(uuidString: kitAlarmIDString) else { return }
+        guard !kitAlarmIDString.isEmpty,
+              let kitId = UUID(uuidString: kitAlarmIDString)
+        else { return }
         let sourceID = AlarmKitAlarmService.sourceAlarmID(for: kitId)
-        guard let alarm = AlarmStore.alarmFromDisk(id: sourceID), alarm.isEnabled else { return }
+        guard let alarm = AlarmStore.alarmFromDisk(id: sourceID) else { return }
 
-        AlarmAlertSessionStore.shared.beginNewAlertCycle(alarmId: sourceID)
-        let store = WakeSessionStore.shared
-        store.restoreIfNeeded()
-        store.markAwaitingMission(
-            alarmId: sourceID,
-            dismissedAt: Date(),
-            window: catchupWindow
-        )
-        PendingMissionRouter.shared.setPending(sourceID)
-        NotificationCenter.default.post(
-            name: .timerOpenMissionAlarm,
-            object: nil,
-            userInfo: ["alarmId": sourceID.uuidString]
-        )
+        recordMissionOwed(alarm: alarm, dismissedAt: Date())
         Task { @MainActor in
             await WakeDeliveryService.shared.scheduleFollowUpsAfterDismiss(alarm: alarm)
         }
+    }
+
+    /// Single place to persist and broadcast that a wake mission must open.
+    @MainActor
+    static func recordMissionOwed(alarm: Alarm, dismissedAt: Date = Date()) {
+        AlarmAlertSessionStore.shared.beginNewAlertCycle(alarmId: alarm.id)
+        let store = WakeSessionStore.shared
+        store.restoreIfNeeded()
+        store.markAwaitingMission(
+            alarmId: alarm.id,
+            dismissedAt: dismissedAt,
+            window: catchupWindow
+        )
+        PendingMissionRouter.shared.setPending(alarm.id)
+        MissionRecoveryStore.shared.markMissionActive(alarmId: alarm.id, at: dismissedAt)
+        NotificationCenter.default.post(
+            name: .timerOpenMissionAlarm,
+            object: nil,
+            userInfo: ["alarmId": alarm.id.uuidString]
+        )
     }
 
     // MARK: - Alarm list sync
@@ -112,11 +121,7 @@ final class WakeDeliveryService: ObservableObject {
                 return sourceID
 
             case .countdown:
-                sessionStore.markAwaitingMission(
-                    alarmId: sourceID,
-                    dismissedAt: Date(),
-                    window: Self.catchupWindow
-                )
+                Self.recordMissionOwed(alarm: alarm)
                 return sourceID
 
             case .scheduled, .paused:
@@ -124,7 +129,39 @@ final class WakeDeliveryService: ObservableObject {
             }
         }
 
-        return sessionStore.pendingMissionAlarmId ?? PendingMissionRouter.shared.pendingAlarmID
+        if let owed = sessionStore.pendingMissionAlarmId ?? PendingMissionRouter.shared.pendingAlarmID {
+            return owed
+        }
+
+        if sessionStore.session == nil,
+           let recent = Self.recentlyFiredAlarm(
+               alarmStore: alarmStore,
+               wakeHistory: wakeHistory,
+               within: 15 * 60
+           ) {
+            Self.recordMissionOwed(alarm: recent)
+            return recent.id
+        }
+
+        return nil
+    }
+
+    /// Fallback when AlarmKit stop intent did not run but the app opened right after an alarm fired.
+    static func recentlyFiredAlarm(
+        alarmStore: AlarmStore,
+        wakeHistory: WakeHistoryStore,
+        within window: TimeInterval
+    ) -> Alarm? {
+        let now = Date()
+        let cycleStart = now.addingTimeInterval(-window)
+        for alarm in alarmStore.alarms {
+            guard alarm.isEnabled else { continue }
+            guard alarm.likelyFired(within: window, reference: now) else { continue }
+            if wakeHistory.hasCompletion(forAlarmId: alarm.id, onOrAfter: cycleStart) { continue }
+            if AlarmAlertSessionStore.shared.shouldSuppressFollowUpNotification(alarmId: alarm.id) { continue }
+            return alarm
+        }
+        return nil
     }
 
     func appEnteredBackground(alarmStore: AlarmStore) async {
@@ -158,6 +195,8 @@ final class WakeDeliveryService: ObservableObject {
         await notifications.clearDeliveredWakeAlerts(for: alarmId)
         await AlarmKitAlarmService.restoreRepeatingSchedule(alarmId: alarmId)
         sessionStore.clear()
+        PendingMissionRouter.shared.consume()
+        MissionRecoveryStore.shared.clear()
     }
 
     func notificationDismissedWithoutMission(alarmId: UUID) async {
@@ -238,7 +277,7 @@ final class WakeDeliveryService: ObservableObject {
 
     private func userStoppedAlarmWithoutMission(alarm: Alarm) async {
         backgroundAudio.stop()
-        sessionStore.markAwaitingMission(alarmId: alarm.id, dismissedAt: Date(), window: Self.catchupWindow)
+        Self.recordMissionOwed(alarm: alarm)
         await scheduleFollowUpsAfterDismiss(alarm: alarm)
     }
 
@@ -260,15 +299,21 @@ final class WakeDeliveryService: ObservableObject {
     }
 
     private func ensureWakeChainIfNeeded() async {
-        guard let wakeSession = sessionStore.session,
-              Date() < wakeSession.expiresAt,
-              let alarm = AlarmStore.alarmFromDisk(id: wakeSession.alarmId),
-              alarm.isEnabled,
-              !AlarmAlertSessionStore.shared.shouldSuppressFollowUpNotification(alarmId: alarm.id)
-        else {
-            if let id = sessionStore.session?.alarmId {
-                await missionCompleted(alarmId: id)
-            }
+        sessionStore.restoreIfNeeded()
+        guard let wakeSession = sessionStore.session else { return }
+
+        if Date() > wakeSession.expiresAt {
+            await missionCompleted(alarmId: wakeSession.alarmId)
+            return
+        }
+
+        if AlarmAlertSessionStore.shared.shouldSuppressFollowUpNotification(alarmId: wakeSession.alarmId) {
+            await missionCompleted(alarmId: wakeSession.alarmId)
+            return
+        }
+
+        guard let alarm = AlarmStore.alarmFromDisk(id: wakeSession.alarmId) else {
+            await missionCompleted(alarmId: wakeSession.alarmId)
             return
         }
 

@@ -22,7 +22,7 @@ enum LegalDocument {
         switch self {
         case .privacyPolicy:
             return """
-            This app helps you wake up using alarms and optional missions (shake, pushups, photo, voice, math, steps, and more).
+            This app helps you wake up using alarms and optional missions (shake, pushups, photo, object hunt, voice, math, steps, and more).
 
             **On your device**
             Alarm schedules, mission history, preferences, and insights are stored locally on your iPhone unless a feature clearly states otherwise.

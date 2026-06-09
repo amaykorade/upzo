@@ -1,4 +1,5 @@
 import ActivityKit
+import AlarmKit
 import SwiftUI
 import WakeCore
 import WidgetKit
@@ -6,7 +7,46 @@ import WidgetKit
 @main
 struct TimerWakeWidgetBundle: WidgetBundle {
     var body: some Widget {
+        UpzoAlarmLiveActivity()
         WakeMissionLiveActivityWidget()
+    }
+}
+
+/// Required by AlarmKit for countdown / alert presentations. Without this, alarms may dismiss without running stop intents.
+struct UpzoAlarmLiveActivity: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: AlarmAttributes<TimerWakeAlarmMetadata>.self) { context in
+            UpzoAlarmLockScreenView(context: context)
+        } dynamicIsland: { context in
+            DynamicIsland {
+                DynamicIslandExpandedRegion(.center) {
+                    Text("Time to wake up")
+                        .font(.headline)
+                }
+            } compactLeading: {
+                Image(systemName: "alarm.fill")
+            } compactTrailing: {
+                Image(systemName: "sun.max.fill")
+            } minimal: {
+                Image(systemName: "alarm.fill")
+            }
+        }
+    }
+}
+
+private struct UpzoAlarmLockScreenView: View {
+    let context: ActivityViewContext<AlarmAttributes<TimerWakeAlarmMetadata>>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Time to wake up", systemImage: "alarm.fill")
+                .font(.headline)
+            Text("Open Upzo to finish your wake-up mission.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
     }
 }
 

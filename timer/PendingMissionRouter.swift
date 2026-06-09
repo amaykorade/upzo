@@ -10,10 +10,17 @@ final class PendingMissionRouter: ObservableObject {
 
     @Published private(set) var pendingAlarmID: UUID?
 
-    private init() {}
+    private enum Keys {
+        static let pendingAlarmID = "pendingMissionRouter.alarmID"
+    }
+
+    private init() {
+        restoreFromDisk()
+    }
 
     func setPending(_ id: UUID) {
         pendingAlarmID = id
+        UserDefaults.standard.set(id.uuidString, forKey: Keys.pendingAlarmID)
     }
 
     func setPending(idString: String) {
@@ -25,7 +32,15 @@ final class PendingMissionRouter: ObservableObject {
     func consume() -> UUID? {
         let id = pendingAlarmID
         pendingAlarmID = nil
+        UserDefaults.standard.removeObject(forKey: Keys.pendingAlarmID)
         return id
+    }
+
+    private func restoreFromDisk() {
+        guard let idString = UserDefaults.standard.string(forKey: Keys.pendingAlarmID),
+              let id = UUID(uuidString: idString)
+        else { return }
+        pendingAlarmID = id
     }
 }
 #endif

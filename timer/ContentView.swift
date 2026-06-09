@@ -22,6 +22,7 @@ struct ContentView: View {
 #if os(iOS)
     @StateObject private var pendingMissionRouter = PendingMissionRouter.shared
     @StateObject private var missionRecoveryStore = MissionRecoveryStore.shared
+    @ObservedObject private var wakeSession = WakeSessionStore.shared
     @ObservedObject private var onboardingStore = OnboardingStore.shared
     @ObservedObject private var accountStore = AccountStore.shared
     @ObservedObject private var subscriptionStore = SubscriptionStore.shared
@@ -40,8 +41,113 @@ struct ContentView: View {
 #endif
 
     var body: some View {
-        Group {
+        platformRoot
+            .environmentObject(alarmStore)
+            .environmentObject(wakeHistory)
+            .environmentObject(AlarmAppSettingsStore.shared)
+            .environmentObject(NotificationPreferencesStore.shared)
+            .environmentObject(AccountStore.shared)
+            .environmentObject(SubscriptionStore.shared)
+            .preferredColorScheme(prefersDarkMode ? .dark : .light)
+    }
+
 #if os(iOS)
+    private var platformRoot: some View {
+        iosMissionShell
+            .adaptivePhoneLayoutOnPad()
+            .task { await runAlarmAuthorizationListener() }
+            .onChange(of: scenePhaseForAccess) { _, _ in handleScenePhaseChange() }
+            .onChange(of: subscriptionStore.hasActiveSubscription) { _, isPremium in
+                if !isPremium { alarmStore.disableAllForExpiredSubscription() }
+            }
+            .onChange(of: accountStore.isSignedIn) { _, signedIn in
+                guard signedIn else { return }
+                applyReturningUserLaunchShortcutsIfNeeded()
+            }
+            .onAppear { handleRootAppear() }
+            .task { await retryPresentMissionIfOwed() }
+            .onReceive(NotificationCenter.default.publisher(for: .timerOpenMissionAlarm)) { output in
+                handleOpenMissionNotification(output)
+            }
+            .onChange(of: pendingMissionRouter.pendingAlarmID) { _, _ in presentMissionIfOwed() }
+            .onChange(of: wakeSession.session) { _, _ in presentMissionIfOwed() }
+            .onChange(of: missionAlarm) { _, newValue in handleMissionAlarmChange(newValue) }
+            .alarmKitMissionBridge(missionAlarm: $missionAlarm)
+    }
+
+    private var iosMissionShell: some View {
+        ZStack {
+            rootContent
+            missionOverlay
+        }
+    }
+
+    private func handleRootAppear() {
+        applyReturningUserLaunchShortcutsIfNeeded()
+        presentMissionIfOwed()
+        Task { await retryPresentMissionIfOwed() }
+    }
+
+    private func handleScenePhaseChange() {
+        Task { await refreshSchedulingAccess() }
+        guard scenePhaseForAccess == .active else {
+            if scenePhaseForAccess == .background {
+                Task { await WakeDeliveryService.shared.appEnteredBackground(alarmStore: alarmStore) }
+            }
+            return
+        }
+        presentMissionIfOwed()
+        Task { await retryPresentMissionIfOwed() }
+    }
+
+    private func handleOpenMissionNotification(_ output: Notification) {
+        guard let idString = output.userInfo?["alarmId"] as? String,
+              let id = UUID(uuidString: idString)
+        else { return }
+        presentMissionIfOwed(preferredAlarmId: id)
+    }
+
+    private func handleMissionAlarmChange(_ newValue: Alarm?) {
+        let settings = AlarmAppSettingsStore.shared
+        if let alarm = newValue {
+            WakeDeliveryService.shared.missionPresentationBegan(for: alarm)
+            missionRecoveryStore.markMissionActive(alarmId: alarm.id)
+            AlarmAlertSessionStore.shared.beginNewAlertCycle(alarmId: alarm.id)
+            MissionSnoozeController.shared.clearSnoozeUsage(for: alarm.id)
+            MissionTimingStore.shared.markMissionBegan(for: alarm.id)
+            MissionDuringAlarmAudio.shared.start(
+                alarm: alarm,
+                enabled: settings.alarmDuringMissionEnabled,
+                mixWithRecording: alarm.missionType == .voice
+            )
+        } else {
+            missionRecoveryStore.clear()
+            MissionDuringAlarmAudio.shared.stop()
+            WakeLiveActivityController.endIfNeeded()
+        }
+    }
+
+    private func runAlarmAuthorizationListener() async {
+        await refreshSchedulingAccess()
+        for await state in AlarmManager.shared.authorizationUpdates {
+            alarmKitState = state
+            if state == .authorized {
+                TabBarAppearance.applySelectedColor(isDarkMode: prefersDarkMode)
+                Task { await alarmStore.rescheduleNotifications() }
+            }
+            await refreshSchedulingAccess()
+        }
+    }
+#else
+    private var platformRoot: some View {
+        macOSTabView
+    }
+#endif
+
+#if os(iOS)
+    @ViewBuilder
+    private var rootContent: some View {
+        Group {
             if !onboardingStore.hasCompletedOnboarding {
                 OnboardingFlowView(
                     onFinished: {
@@ -72,70 +178,52 @@ struct ContentView: View {
             } else {
                 mainAppTabView
             }
-#else
-            macOSTabView
-#endif
         }
-#if os(iOS)
-        .adaptivePhoneLayoutOnPad()
-        .task {
-            await refreshSchedulingAccess()
-            for await state in AlarmManager.shared.authorizationUpdates {
-                await MainActor.run {
-                    alarmKitState = state
-                    if state == .authorized {
-                        TabBarAppearance.applySelectedColor(isDarkMode: prefersDarkMode)
-                        Task { await alarmStore.rescheduleNotifications() }
-                    }
-                    Task { await refreshSchedulingAccess() }
-                }
-            }
-        }
-        .onChange(of: scenePhaseForAccess) { _, _ in
-            Task { await refreshSchedulingAccess() }
-            if scenePhaseForAccess == .active {
-                restoreMissionAfterTerminationIfNeeded()
-                Task {
-                    await WakeDeliveryService.shared.appBecameActive(
-                        wakeHistory: wakeHistory,
-                        alarmStore: alarmStore
-                    )
-                }
-            } else if scenePhaseForAccess == .background {
-                Task { await WakeDeliveryService.shared.appEnteredBackground(alarmStore: alarmStore) }
-            }
-        }
-        .onChange(of: subscriptionStore.hasActiveSubscription) { _, isPremium in
-            if !isPremium {
-                alarmStore.disableAllForExpiredSubscription()
-            }
-        }
-        .onChange(of: accountStore.isSignedIn) { _, signedIn in
-            guard signedIn else { return }
-            applyReturningUserLaunchShortcutsIfNeeded()
-        }
-        .onAppear {
-            applyReturningUserLaunchShortcutsIfNeeded()
-            restoreMissionAfterTerminationIfNeeded()
-            Task {
-                await refreshSchedulingAccess()
-                await WakeDeliveryService.shared.appBecameActive(
-                    wakeHistory: wakeHistory,
-                    alarmStore: alarmStore
-                )
-            }
-        }
-#endif
-        .environmentObject(alarmStore)
-        .environmentObject(wakeHistory)
-        .environmentObject(AlarmAppSettingsStore.shared)
-        .environmentObject(NotificationPreferencesStore.shared)
-        .environmentObject(AccountStore.shared)
-        .environmentObject(SubscriptionStore.shared)
-        .preferredColorScheme(prefersDarkMode ? .dark : .light)
     }
 
-#if os(iOS)
+    @ViewBuilder
+    private var missionOverlay: some View {
+        if let alarm = missionAlarm {
+            MissionExecutionView(
+                alarm: alarm,
+                allowsDismissWithoutMission: false,
+                onMissionCompleted: {
+                    let completedAlarmId = alarm.id
+                    MissionSnoozeController.shared.clearSnoozeUsage(for: completedAlarmId)
+                    wakeHistory.recordCompletion(
+                        alarmId: completedAlarmId,
+                        missionType: alarm.missionType,
+                        alarmSound: alarm.alarmSound
+                    )
+                    AppReviewCoordinator.considerPromptAfterSuccessfulWake(
+                        totalSuccessfulWakes: wakeHistory.totalSuccessfulWakes,
+                        streakDays: wakeHistory.currentStreakDays
+                    )
+                    AlarmAlertSessionStore.shared.markMissionCompleted(alarmId: completedAlarmId)
+                    missionRecoveryStore.clear()
+                    missionAlarm = nil
+                    Task {
+                        await WakeDeliveryService.shared.missionCompleted(alarmId: completedAlarmId)
+                    }
+                },
+                onDismiss: {
+                    MissionTimingStore.shared.clear(for: alarm.id)
+                    missionRecoveryStore.clear()
+                    WakeLiveActivityController.endIfNeeded()
+                    Task {
+                        await WakeDeliveryService.shared.missionUIClosedWithoutCompletion(alarmId: alarm.id)
+                    }
+                    missionAlarm = nil
+                }
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(.systemBackground))
+            .ignoresSafeArea()
+            .zIndex(1)
+            .transition(.opacity)
+        }
+    }
+
     private var mainAppTabView: some View {
         TabView(selection: $selectedTab) {
                 HomeView(onOpenAlarms: { selectedTab = 1 })
@@ -172,105 +260,73 @@ struct ContentView: View {
                     selectedTab = 1
                 }
             }
-            .onReceive(NotificationCenter.default.publisher(for: .timerOpenMissionAlarm)) { output in
-                guard let idString = output.userInfo?["alarmId"] as? String,
-                      let id = UUID(uuidString: idString),
-                      let alarm = alarmStore.alarm(id: id)
-                else { return }
-                missionAlarm = alarm
-                PendingMissionRouter.shared.consume()
-            }
             .onAppear {
-                presentPendingMissionIfAny()
-                restoreMissionAfterTerminationIfNeeded()
                 OnboardingStore.shared.createStarterAlarmIfNeeded(
                     alarmStore: alarmStore,
                     appSettings: AlarmAppSettingsStore.shared
                 )
             }
-            .onChange(of: pendingMissionRouter.pendingAlarmID) { _, _ in
-                presentPendingMissionIfAny()
-            }
-            .onChange(of: missionAlarm) { _, newValue in
-                let settings = AlarmAppSettingsStore.shared
-                if let alarm = newValue {
-                    WakeDeliveryService.shared.missionPresentationBegan(for: alarm)
-                    // Full-screen mission is enough; skip Dynamic Island to avoid a lingering time pill after dismiss.
-                    missionRecoveryStore.markMissionActive(alarmId: alarm.id)
-                    AlarmAlertSessionStore.shared.beginNewAlertCycle(alarmId: alarm.id)
-                    MissionSnoozeController.shared.clearSnoozeUsage(for: alarm.id)
-                    MissionTimingStore.shared.markMissionBegan(for: alarm.id)
-                    MissionDuringAlarmAudio.shared.start(
-                        alarm: alarm,
-                        enabled: settings.alarmDuringMissionEnabled,
-                        mixWithRecording: alarm.missionType == .voice
-                    )
-                } else {
-                    missionRecoveryStore.clear()
-                    MissionDuringAlarmAudio.shared.stop()
-                    WakeLiveActivityController.endIfNeeded()
-                }
-            }
-            .fullScreenCover(item: $missionAlarm) { alarm in
-                MissionExecutionView(
-                    alarm: alarm,
-                    allowsDismissWithoutMission: false,
-                    onMissionCompleted: {
-                        MissionSnoozeController.shared.clearSnoozeUsage(for: alarm.id)
-                        wakeHistory.recordCompletion(
-                            alarmId: alarm.id,
-                            missionType: alarm.missionType,
-                            alarmSound: alarm.alarmSound
-                        )
-                        AppReviewCoordinator.considerPromptAfterSuccessfulWake(
-                            totalSuccessfulWakes: wakeHistory.totalSuccessfulWakes,
-                            streakDays: wakeHistory.currentStreakDays
-                        )
-                        AlarmAlertSessionStore.shared.markMissionCompleted(alarmId: alarm.id)
-                        Task {
-                            await WakeDeliveryService.shared.missionCompleted(alarmId: alarm.id)
-                            missionRecoveryStore.clear()
-                            missionAlarm = nil
-                        }
-                    },
-                    onDismiss: {
-                        MissionTimingStore.shared.clear(for: alarm.id)
-                        missionRecoveryStore.clear()
-                        WakeLiveActivityController.endIfNeeded()
-                        Task {
-                            await WakeDeliveryService.shared.missionUIClosedWithoutCompletion(alarmId: alarm.id)
-                        }
-                        missionAlarm = nil
-                    }
-                )
-                .interactiveDismissDisabled(true)
-            }
-            .alarmKitMissionBridge(missionAlarm: $missionAlarm)
     }
 
-    private func presentPendingMissionIfAny() {
-        guard missionAlarm == nil,
-              let id = pendingMissionRouter.pendingAlarmID,
-              let alarm = alarmStore.alarm(id: id)
-        else { return }
-        missionAlarm = alarm
-        pendingMissionRouter.consume()
+    /// Presents the owed wake mission above onboarding, paywall, or setup gates.
+    private func presentMissionIfOwed(preferredAlarmId: UUID? = nil) {
+        guard missionAlarm == nil else { return }
+
+        missionRecoveryStore.refreshFromDisk()
+        wakeSession.restoreIfNeeded()
+
+        var seen = Set<UUID>()
+        let candidateIDs: [UUID] = [
+            preferredAlarmId,
+            pendingMissionRouter.pendingAlarmID,
+            wakeSession.pendingMissionAlarmId,
+            missionRecoveryStore.pendingMissionAlarmID,
+        ].compactMap { id in
+            guard let id, seen.insert(id).inserted else { return nil }
+            return id
+        }
+
+        for id in candidateIDs {
+            guard let alarm = resolveAlarmForMission(id: id) else { continue }
+            missionAlarm = alarm
+            pendingMissionRouter.consume()
+            return
+        }
+    }
+
+    private func resolveAlarmForMission(id: UUID) -> Alarm? {
+        if let alarm = alarmStore.alarm(id: id) {
+            return alarm
+        }
+        return AlarmStore.alarmFromDisk(id: id)
+    }
+
+    @MainActor
+    private func retryPresentMissionIfOwed() async {
+        let owedId = await WakeDeliveryService.shared.reconcileAlarmKitOnBecomeActive(
+            wakeHistory: wakeHistory,
+            alarmStore: alarmStore
+        )
+        presentMissionIfOwed(preferredAlarmId: owedId)
+
+        for _ in 0 ..< 12 {
+            if missionAlarm != nil { break }
+            presentMissionIfOwed()
+            if missionAlarm != nil { break }
+            try? await Task.sleep(for: .milliseconds(250))
+        }
+
+        await WakeDeliveryService.shared.appBecameActive(
+            wakeHistory: wakeHistory,
+            alarmStore: alarmStore
+        )
+        presentMissionIfOwed(preferredAlarmId: owedId)
+        await refreshSchedulingAccess()
     }
 
     private func skipOnboardingForReturningUser() {
         onboardingStore.markSkippedForReturningUser()
         CommitmentStore.markCompleted()
-    }
-
-    private func restoreMissionAfterTerminationIfNeeded() {
-        guard missionAlarm == nil else { return }
-        missionRecoveryStore.refreshFromDisk()
-        guard let id = missionRecoveryStore.pendingMissionAlarmID else { return }
-        guard let alarm = alarmStore.alarm(id: id), alarm.isEnabled else {
-            missionRecoveryStore.clear()
-            return
-        }
-        missionAlarm = alarm
     }
 
     /// After reinstall or Sign in with Apple restore — skip quiz and commitment.
@@ -294,7 +350,10 @@ struct ContentView: View {
                 alarmStore: alarmStore,
                 appSettings: AlarmAppSettingsStore.shared
             )
-            await alarmStore.rescheduleNotifications()
+            wakeSession.restoreIfNeeded()
+            if wakeSession.pendingMissionAlarmId == nil, missionAlarm == nil {
+                await alarmStore.rescheduleNotifications()
+            }
         }
     }
 #else

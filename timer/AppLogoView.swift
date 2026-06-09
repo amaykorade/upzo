@@ -2,7 +2,7 @@ import SwiftUI
 
 /// How the brand mark is shown — match the subscription paywall (`.mark`) or large hero tiles (`.appIcon`).
 enum AppLogoStyle {
-    /// Orange sun artwork only — used in screen headers and the paywall top bar.
+    /// Brand mark only — used in screen headers and the paywall top bar.
     case mark
     /// Rounded icon tile — used on welcome, permissions, and centered hero screens.
     case appIcon

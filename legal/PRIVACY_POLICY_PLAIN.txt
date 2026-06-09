@@ -16,7 +16,7 @@ By using the App, you agree to this Privacy Policy. If you do not agree, please 
 
 SUMMARY
 
-- Upzo helps you wake up using alarms and optional missions (for example: shake your phone, take a photo, say a phrase, solve math, walk steps, or type a phrase).
+- Upzo helps you wake up using alarms and optional missions (for example: shake your phone, take a photo, find a household object, say a phrase, solve math, walk steps, or type a phrase).
 
 - Most of your data stays on your iPhone (alarms, settings, wake history, and onboarding answers).
 
@@ -62,7 +62,7 @@ The App only asks for permissions when a feature needs them:
 
 - Notifications — alarm alerts and optional reminders
 - Alarms (AlarmKit) — system-level alarms on supported iPhones
-- Camera — photo wake-up missions
+- Camera — photo wake-up missions and on-device object recognition for object hunt
 - Photo Library — choosing a photo for missions when allowed
 - Microphone — voice wake-up missions
 - Speech Recognition — checking that you said your wake-up phrase

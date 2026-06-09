@@ -172,6 +172,11 @@ final class AlarmStore: ObservableObject {
 
     func rescheduleNotificationsOnLaunch() {
         Task {
+            WakeSessionStore.shared.restoreIfNeeded()
+            if WakeSessionStore.shared.pendingMissionAlarmId != nil {
+                // Let the mission UI open before rescheduling AlarmKit alarms.
+                try? await Task.sleep(for: .seconds(3))
+            }
             // If the user is returning to the app, surface the permission prompts they may not have completed.
             if alarms.contains(where: \.isEnabled) {
                 _ = await AlarmPermissions.ensureSchedulingPermissions()

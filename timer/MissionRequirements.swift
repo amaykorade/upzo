@@ -30,6 +30,11 @@ struct MissionRequirements {
         verificationLevel == .strict ? 95 : 70
     }
 
+    /// Minimum Vision classification confidence for object hunt missions.
+    var objectHuntMinConfidence: Float {
+        verificationLevel == .strict ? 0.35 : 0.18
+    }
+
     var textPhrase: String {
         verificationLevel == .strict ? "I am fully awake now" : "I am awake"
     }
@@ -53,7 +58,7 @@ extension MissionType {
     }
 
     var requiresCamera: Bool {
-        self == .photo || self == .pushups
+        self == .photo || self == .pushups || self == .objectHunt
     }
 
     var requiresMotion: Bool {

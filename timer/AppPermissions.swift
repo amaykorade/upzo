@@ -62,7 +62,7 @@ enum AppPermissions {
             case .notifications:
                 return "Backup alerts if a system alarm is missed."
             case .camera:
-                return "Take a sky photo or count pushups with the front camera."
+                return "Take photos for wake-up missions such as sky photos, object hunt, and pushups."
             case .microphone:
                 return "Listen while you say your wake-up phrase."
             case .speech:

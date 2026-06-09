@@ -3,7 +3,7 @@ import SwiftUI
 import UIKit
 
 struct MissionSuccessView: View {
-    static let autoDismissSeconds: TimeInterval = 10
+    static let autoDismissSeconds: TimeInterval = 5
 
     let missionTitle: String
     var onFinish: () -> Void
@@ -15,7 +15,6 @@ struct MissionSuccessView: View {
         ZStack {
             Color.black.opacity(0.96)
                 .ignoresSafeArea()
-                .allowsHitTesting(false)
 
             RadialGradient(
                 colors: [
@@ -66,25 +65,9 @@ struct MissionSuccessView: View {
                     .padding(.top, 4)
             }
             .padding(.horizontal, 32)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .allowsHitTesting(false)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .topTrailing) {
-            Button {
-                finish()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
-                    .background(.white.opacity(0.22), in: Circle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Close")
-            .padding(.trailing, 20)
-            .padding(.top, 8)
-        }
         .zIndex(2)
         .onAppear {
             UIApplication.shared.sendAction(

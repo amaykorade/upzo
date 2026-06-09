@@ -156,6 +156,7 @@ enum OnboardingMissionChoice: String, CaseIterable, Codable, Identifiable {
     case text
     case voice
     case photo
+    case objectHunt
 
     var id: String { rawValue }
 
@@ -168,6 +169,7 @@ enum OnboardingMissionChoice: String, CaseIterable, Codable, Identifiable {
         case .text: "Type a wake-up phrase"
         case .voice: "Say a phrase out loud"
         case .photo: "Take a sky or window photo"
+        case .objectHunt: "Find and photograph a household object"
         }
     }
 
@@ -180,6 +182,7 @@ enum OnboardingMissionChoice: String, CaseIterable, Codable, Identifiable {
         case .text: "character.textbox"
         case .voice: "mic.fill"
         case .photo: "camera.fill"
+        case .objectHunt: "magnifyingglass"
         }
     }
 
@@ -192,6 +195,7 @@ enum OnboardingMissionChoice: String, CaseIterable, Codable, Identifiable {
         case .text: .text
         case .voice: .voice
         case .photo: .photo
+        case .objectHunt: .objectHunt
         }
     }
 }

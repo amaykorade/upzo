@@ -215,7 +215,7 @@ struct SubscriptionPaywallView: View {
             plusBenefitRow(icon: "alarm.fill", text: "Unlimited alarms with system-level ringing")
             plusBenefitRow(
                 icon: "figure.walk",
-                text: "All wake-up missions — shake, pushups, photo, voice, math, steps, text, Bible, affirmations, and more"
+                text: "All wake-up missions — shake, pushups, photo, object hunt, voice, math, steps, text, Bible, affirmations, and more"
             )
             plusBenefitRow(icon: "bell.badge.fill", text: "Backup notifications if you miss an alarm")
             plusBenefitRow(icon: "chart.bar.fill", text: "Morning insights and wake history")

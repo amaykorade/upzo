@@ -13,7 +13,20 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        bootstrapPendingMissionFromDisk()
         return true
+    }
+
+    @MainActor
+    private func bootstrapPendingMissionFromDisk() {
+        WakeSessionStore.shared.restoreIfNeeded()
+        MissionRecoveryStore.shared.refreshFromDisk()
+
+        let owedID = WakeSessionStore.shared.pendingMissionAlarmId
+            ?? MissionRecoveryStore.shared.pendingMissionAlarmID
+
+        guard let owedID else { return }
+        PendingMissionRouter.shared.setPending(owedID)
     }
 
     func application(

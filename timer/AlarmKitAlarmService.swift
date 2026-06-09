@@ -3,9 +3,7 @@ import ActivityKit
 import AlarmKit
 import Foundation
 import SwiftUI
-
-/// Metadata reserved for future Live Activity / App Intents wiring.
-struct TimerWakeAlarmMetadata: AlarmMetadata, Codable, Hashable, Sendable {}
+import WakeCore
 
 enum AlarmKitAlarmService {
     static let missionRecatchInterval: TimeInterval = WakeChainPlanner.ringInterval

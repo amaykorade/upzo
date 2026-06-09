@@ -81,6 +81,7 @@ enum MissionType: String, CaseIterable, Codable, Identifiable, Hashable {
     case math
     case steps
     case pushups
+    case objectHunt
 
     var id: String { rawValue }
 
@@ -95,6 +96,7 @@ enum MissionType: String, CaseIterable, Codable, Identifiable, Hashable {
         case .math: "Math"
         case .steps: "Steps"
         case .pushups: "Pushups"
+        case .objectHunt: "Object hunt"
         }
     }
 
@@ -109,6 +111,7 @@ enum MissionType: String, CaseIterable, Codable, Identifiable, Hashable {
         case .math: "function"
         case .steps: "figure.walk"
         case .pushups: "figure.strengthtraining.traditional"
+        case .objectHunt: "magnifyingglass"
         }
     }
 
@@ -133,12 +136,16 @@ enum MissionType: String, CaseIterable, Codable, Identifiable, Hashable {
             return "Walk a set number of steps — motion is verified."
         case .pushups:
             return "Do pushups in front of the camera — reps are counted on device."
+        case .objectHunt:
+            return "Find and photograph a random household object — verified on device."
         }
     }
 
     /// Decodes a stored mission id; retired types map to a supported mission.
     static func fromStored(_ rawValue: String) -> MissionType {
         switch rawValue {
+        case "objectHunt":
+            return .objectHunt
         case "pushups":
             return .pushups
         case "hanumanChalisa":
@@ -360,4 +367,28 @@ extension Alarm {
         let t = title.trimmingCharacters(in: .whitespacesAndNewlines)
         return t.isEmpty ? "Alarm" : t
     }
+
+#if os(iOS)
+    /// True when `reference` is within `window` seconds after today's scheduled fire time for this alarm.
+    func likelyFired(within window: TimeInterval, reference: Date = Date()) -> Bool {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year, .month, .day], from: reference)
+        components.hour = hour
+        components.minute = minute
+        components.second = 0
+        guard let todayFire = calendar.date(from: components) else { return false }
+
+        if scheduleMode == .oneTime {
+            guard let fire = nextFireDate(from: reference.addingTimeInterval(-window - 60)) else { return false }
+            let delta = reference.timeIntervalSince(fire)
+            return delta >= 0 && delta <= window
+        }
+
+        guard !repeatDays.isEmpty else { return false }
+        let weekday = calendar.component(.weekday, from: reference)
+        guard let day = Weekday.fromCalendarWeekday(weekday), repeatDays.contains(day) else { return false }
+        let delta = reference.timeIntervalSince(todayFire)
+        return delta >= 0 && delta <= window
+    }
+#endif
 }

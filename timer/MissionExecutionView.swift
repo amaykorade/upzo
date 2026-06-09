@@ -152,14 +152,14 @@ struct MissionExecutionView: View {
     var body: some View {
         ZStack {
             missionShell
+                .allowsHitTesting(!showSuccessCelebration)
 
             if showSuccessCelebration {
                 MissionSuccessView(missionTitle: alarm.missionType.title) {
-                    showSuccessCelebration = false
                     onMissionCompleted()
                 }
                 .transition(.opacity.combined(with: .scale(scale: 1.02)))
-                .zIndex(1)
+                .zIndex(10)
             }
         }
         .animation(.easeOut(duration: 0.35), value: showSuccessCelebration)
@@ -221,6 +221,11 @@ struct MissionExecutionView: View {
                     PushupMissionContent(
                         requiredReps: requirements.requiredPushupCount,
                         isStrict: isStrictMission,
+                        onComplete: handleMissionComplete
+                    )
+                case .objectHunt:
+                    ObjectHuntMissionContent(
+                        requirements: requirements,
                         onComplete: handleMissionComplete
                     )
                 }
@@ -432,42 +437,6 @@ private struct ShakeMissionContent: View {
             didFinish = true
             sensor.stop()
             onComplete()
-        }
-    }
-}
-
-// MARK: - Camera picker
-
-private struct CameraImagePicker: UIViewControllerRepresentable {
-    @Binding var capturedImage: UIImage?
-    @Environment(\.dismiss) private var dismiss
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
-        picker.delegate = context.coordinator
-        picker.cameraCaptureMode = .photo
-        picker.allowsEditing = false
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
-    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: CameraImagePicker
-        init(_ parent: CameraImagePicker) { self.parent = parent }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.dismiss()
-        }
-
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            parent.capturedImage = info[.originalImage] as? UIImage
-            parent.dismiss()
         }
     }
 }

@@ -12,7 +12,7 @@ These Terms of Service (“Terms”) govern your use of Upzo (“the App”). By
 
 ## 1. The App
 
-Upzo is a wake-up alarm application. To dismiss an alarm, you may need to complete a “mission” (such as shaking the phone, taking a photo, speaking a phrase, solving a math problem, walking steps, or typing a phrase).
+Upzo is a wake-up alarm application. To dismiss an alarm, you may need to complete a “mission” (such as shaking the phone, taking a photo, finding a household object, speaking a phrase, solving a math problem, walking steps, or typing a phrase).
 
 The App is a **lifestyle and productivity tool**, not a medical device. It does not diagnose, treat, or prevent any health condition. You are solely responsible for waking up on time and for your own safety.
 

@@ -28,6 +28,7 @@ final class AlarmModelsTests: XCTestCase {
         XCTAssertTrue(MissionType.allCases.contains(.math))
         XCTAssertTrue(MissionType.allCases.contains(.steps))
         XCTAssertTrue(MissionType.allCases.contains(.pushups))
+        XCTAssertTrue(MissionType.allCases.contains(.objectHunt))
     }
 
     func testAlarmSoundProvidesTitlesForAllCases() {

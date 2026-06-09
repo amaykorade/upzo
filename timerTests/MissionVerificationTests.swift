@@ -49,6 +49,7 @@ final class MissionVerificationTests: XCTestCase {
 
     func testMissionTypeIncludesNewCases() {
         XCTAssertTrue(MissionType.allCases.contains(.pushups))
+        XCTAssertTrue(MissionType.allCases.contains(.objectHunt))
         XCTAssertFalse(MissionType.allCases.contains(where: { $0.rawValue == "hanumanChalisa" }))
         XCTAssertTrue(MissionType.allCases.contains(.math))
         XCTAssertTrue(MissionType.allCases.contains(.steps))
@@ -62,6 +63,7 @@ final class MissionVerificationTests: XCTestCase {
 
         XCTAssertTrue(MissionType.photo.requiresCamera)
         XCTAssertTrue(MissionType.pushups.requiresCamera)
+        XCTAssertTrue(MissionType.objectHunt.requiresCamera)
         XCTAssertFalse(MissionType.math.requiresCamera)
 
         XCTAssertTrue(MissionType.shake.requiresMotion)

@@ -161,7 +161,7 @@ struct AlarmListView: View {
             VStack(spacing: 8) {
                 Text("No alarms yet")
                     .font(.title3.weight(.semibold))
-                Text("Add an alarm to wake up with a mission—shake, photo, voice, or typed phrase.")
+                Text("Add an alarm to wake up with a mission—shake, photo, object hunt, voice, or typed phrase.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

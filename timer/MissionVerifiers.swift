@@ -1,6 +1,7 @@
 import Foundation
 #if canImport(UIKit)
 import UIKit
+import Vision
 #endif
 
 enum MissionVerifiers {
@@ -81,5 +82,107 @@ enum MissionVerifiers {
         let averageTopBrightness = brightnessSum / width
         return averageTopBrightness > minimumTopBrightness
     }
+
+    // MARK: - Object hunt
+
+    static let objectHuntTopClassificationCount = 40
+
+    static func photoContainsHuntObject(
+        _ image: UIImage,
+        target: HuntObject,
+        minConfidence: Float
+    ) -> Bool {
+        guard let cgImage = image.cgImage else { return false }
+        let request = VNClassifyImageRequest()
+        let handler = VNImageRequestHandler(
+            cgImage: cgImage,
+            orientation: CGImagePropertyOrientation(image.imageOrientation),
+            options: [:]
+        )
+        do {
+            try handler.perform([request])
+            guard let results = request.results else { return false }
+            let observations = results
+                .prefix(objectHuntTopClassificationCount)
+                .map { (identifier: $0.identifier, confidence: $0.confidence) }
+            return huntObjectMatches(observations: observations, target: target, minConfidence: minConfidence)
+        } catch {
+            return false
+        }
+    }
+
+    static func huntObjectMatches(
+        observations: [(identifier: String, confidence: Float)],
+        target: HuntObject,
+        minConfidence: Float
+    ) -> Bool {
+        let normalizedLabels = target.visionLabels.map { label in
+            (
+                identifier: normalizeVisionIdentifier(label.identifier),
+                minConfidenceOverride: label.minConfidenceOverride
+            )
+        }
+
+        for observation in observations {
+            let observedID = normalizeVisionIdentifier(observation.identifier)
+            for label in normalizedLabels where visionIdentifiersMatch(observedID, catalogID: label.identifier) {
+                let requiredConfidence = label.minConfidenceOverride ?? minConfidence
+                if observation.confidence >= requiredConfidence {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    static func normalizeVisionIdentifier(_ value: String) -> String {
+        value
+            .lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "-", with: "_")
+    }
+
+    private static func visionIdentifiersMatch(_ observedID: String, catalogID: String) -> Bool {
+        observedID == catalogID
+            || observedID.hasSuffix("_\(catalogID)")
+            || observedID.hasPrefix("\(catalogID)_")
+    }
+
+    static func normalizedUpOrientation(_ image: UIImage) -> UIImage {
+        image.normalizedUpOrientation()
+    }
 #endif
 }
+
+#if canImport(UIKit)
+import UIKit
+
+extension UIImage {
+    /// Draws the image upright so Vision sees the same framing as the user captured.
+    func normalizedUpOrientation() -> UIImage {
+        guard imageOrientation != .up else { return self }
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = scale
+        return UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
+}
+
+extension CGImagePropertyOrientation {
+    init(_ orientation: UIImage.Orientation) {
+        switch orientation {
+        case .up: self = .up
+        case .down: self = .down
+        case .left: self = .left
+        case .right: self = .right
+        case .upMirrored: self = .upMirrored
+        case .downMirrored: self = .downMirrored
+        case .leftMirrored: self = .leftMirrored
+        case .rightMirrored: self = .rightMirrored
+        @unknown default: self = .up
+        }
+    }
+}
+#endif
