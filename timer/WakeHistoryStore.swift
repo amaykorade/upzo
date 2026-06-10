@@ -88,9 +88,25 @@ final class WakeHistoryStore: ObservableObject {
         events.contains { $0.alarmId == alarmId && $0.completedAt >= date }
     }
 
+    func reloadFromDisk() {
+        guard !isPreview else { return }
+        events = Self.loadEvents(from: fileURL)
+    }
+
     private func persistIfNeeded() {
         guard !isPreview else { return }
         Self.saveEvents(events, to: fileURL)
+#if os(iOS)
+        CloudKitUserDataSync.markLocalDataChanged()
+#endif
+    }
+
+    static func loadEventsFromDisk() -> [WakeEvent] {
+        loadEvents(from: eventsFileURL())
+    }
+
+    static func saveEventsToDisk(_ events: [WakeEvent]) {
+        saveEvents(events, to: eventsFileURL())
     }
 
     private static func eventsFileURL() -> URL {

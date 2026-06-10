@@ -228,6 +228,9 @@ final class AccountStore: ObservableObject {
     }
 
     func deleteAccount() {
+#if os(iOS)
+        Task { await CloudKitUserDataSync.shared.deleteRemoteBackup() }
+#endif
         logout()
         let newID = UUID().uuidString
         accountID = newID

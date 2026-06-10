@@ -56,7 +56,7 @@ struct AccountSettingsSheet: View {
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("This deletes your sign-in session and account data stored on this iPhone. It does not delete your alarms. We do not operate a cloud account yet—nothing is removed from a server.")
+                Text("This deletes your sign-in session on this iPhone and removes your Upzo backup from iCloud. Alarms and history on this device are not erased automatically.")
             }
             .overlay(alignment: .bottom) {
                 if showCopiedConfirmation {
@@ -131,6 +131,11 @@ struct AccountSettingsSheet: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+
+                    Text("Alarms, wake history, settings, and notification preferences sync to your private iCloud when iCloud is enabled on this device.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }

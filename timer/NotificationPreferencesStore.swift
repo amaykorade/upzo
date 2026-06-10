@@ -16,31 +16,52 @@ final class NotificationPreferencesStore: ObservableObject {
     }
 
     @Published var eveningNudgeEnabled: Bool {
-        didSet { UserDefaults.standard.set(eveningNudgeEnabled, forKey: Keys.eveningNudgeEnabled) }
+        didSet {
+            UserDefaults.standard.set(eveningNudgeEnabled, forKey: Keys.eveningNudgeEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var eveningNudgeHour: Int {
-        didSet { UserDefaults.standard.set(eveningNudgeHour, forKey: Keys.eveningNudgeHour) }
+        didSet {
+            UserDefaults.standard.set(eveningNudgeHour, forKey: Keys.eveningNudgeHour)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var eveningNudgeMinute: Int {
-        didSet { UserDefaults.standard.set(eveningNudgeMinute, forKey: Keys.eveningNudgeMinute) }
+        didSet {
+            UserDefaults.standard.set(eveningNudgeMinute, forKey: Keys.eveningNudgeMinute)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var planRemindersEnabled: Bool {
-        didSet { UserDefaults.standard.set(planRemindersEnabled, forKey: Keys.planRemindersEnabled) }
+        didSet {
+            UserDefaults.standard.set(planRemindersEnabled, forKey: Keys.planRemindersEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var finishSetupReminderEnabled: Bool {
-        didSet { UserDefaults.standard.set(finishSetupReminderEnabled, forKey: Keys.finishSetupReminderEnabled) }
+        didSet {
+            UserDefaults.standard.set(finishSetupReminderEnabled, forKey: Keys.finishSetupReminderEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var trialReminderEnabled: Bool {
-        didSet { UserDefaults.standard.set(trialReminderEnabled, forKey: Keys.trialReminderEnabled) }
+        didSet {
+            UserDefaults.standard.set(trialReminderEnabled, forKey: Keys.trialReminderEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var freeTrialNudgesEnabled: Bool {
-        didSet { UserDefaults.standard.set(freeTrialNudgesEnabled, forKey: Keys.freeTrialNudgesEnabled) }
+        didSet {
+            UserDefaults.standard.set(freeTrialNudgesEnabled, forKey: Keys.freeTrialNudgesEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     private init() {
@@ -68,4 +89,20 @@ final class NotificationPreferencesStore: ObservableObject {
         let mission = missionTitle ?? "mission"
         return "Tomorrow's alarm & \(mission) at \(eveningNudgeTimeDisplay)."
     }
+
+#if os(iOS)
+    func applyCloudBackup(_ snapshot: CloudNotificationPrefsSnapshot) {
+        eveningNudgeEnabled = snapshot.eveningNudgeEnabled
+        eveningNudgeHour = snapshot.eveningNudgeHour
+        eveningNudgeMinute = snapshot.eveningNudgeMinute
+        planRemindersEnabled = snapshot.planRemindersEnabled
+        finishSetupReminderEnabled = snapshot.finishSetupReminderEnabled
+        trialReminderEnabled = snapshot.trialReminderEnabled
+        freeTrialNudgesEnabled = snapshot.freeTrialNudgesEnabled
+    }
+
+    private func markCloudSyncNeeded() {
+        CloudKitUserDataSync.markLocalDataChanged()
+    }
+#endif
 }

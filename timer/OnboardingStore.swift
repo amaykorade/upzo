@@ -36,6 +36,9 @@ final class OnboardingStore: ObservableObject {
         if let data = try? JSONEncoder().encode(copy) {
             UserDefaults.standard.set(data, forKey: Keys.profileJSON)
         }
+#if os(iOS)
+        CloudKitUserDataSync.markLocalDataChanged()
+#endif
     }
 
     /// Applies onboarding answers to app settings. First alarm is created when the main app opens.
@@ -88,13 +91,39 @@ final class OnboardingStore: ObservableObject {
     func markCompleted() {
         skippedOnboardingForReturningUser = false
         hasCompletedOnboarding = true
+#if os(iOS)
+        CloudKitUserDataSync.markLocalDataChanged()
+#endif
     }
 
     /// Skips the questionnaire for users who sign in with an existing account.
     func markSkippedForReturningUser() {
         skippedOnboardingForReturningUser = true
         hasCompletedOnboarding = true
+#if os(iOS)
+        CloudKitUserDataSync.markLocalDataChanged()
+#endif
     }
+
+#if os(iOS)
+    func applyCloudBackup(
+        completed: Bool,
+        skippedForReturningUser: Bool,
+        profile: OnboardingProfile?
+    ) {
+        hasCompletedOnboarding = completed
+        skippedOnboardingForReturningUser = skippedForReturningUser
+        if let profile {
+            if let data = try? JSONEncoder().encode(profile) {
+                UserDefaults.standard.set(data, forKey: Keys.profileJSON)
+            }
+            self.profile = profile
+        } else if !completed {
+            self.profile = nil
+            UserDefaults.standard.removeObject(forKey: Keys.profileJSON)
+        }
+    }
+#endif
 
     func resetForRetake() {
         hasCompletedOnboarding = false

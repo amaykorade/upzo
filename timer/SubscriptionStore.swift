@@ -54,6 +54,21 @@ final class SubscriptionStore: ObservableObject {
         monthlyProduct ?? products.first
     }
 
+    var cloudBackupSnapshot: CloudSubscriptionSnapshot {
+        CloudSubscriptionSnapshot(
+            accessUntil: SubscriptionAccessCache.accessUntil,
+            purchasedProductIDs: purchasedProductIDs.sorted()
+        )
+    }
+
+    func applyCloudBackup(_ snapshot: CloudSubscriptionSnapshot) {
+        if let until = snapshot.accessUntil, until > Date() {
+            SubscriptionAccessCache.save(accessUntil: until)
+        } else {
+            SubscriptionAccessCache.clear()
+        }
+    }
+
     private var updatesTask: Task<Void, Never>?
 
     private init() {
@@ -233,6 +248,8 @@ final class SubscriptionStore: ObservableObject {
         } else if !SubscriptionAccessCache.hasValidAccess {
             SubscriptionAccessCache.clear()
         }
+
+        CloudKitUserDataSync.markLocalDataChanged()
     }
 
     /// Cancelled plans stay `.subscribed` until Apple marks the period expired.

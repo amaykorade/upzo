@@ -39,31 +39,52 @@ final class AlarmAppSettingsStore: ObservableObject {
     }
 
     @Published var goalWakeHour: Int {
-        didSet { UserDefaults.standard.set(goalWakeHour, forKey: Keys.goalWakeHour) }
+        didSet {
+            UserDefaults.standard.set(goalWakeHour, forKey: Keys.goalWakeHour)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var goalWakeMinute: Int {
-        didSet { UserDefaults.standard.set(goalWakeMinute, forKey: Keys.goalWakeMinute) }
+        didSet {
+            UserDefaults.standard.set(goalWakeMinute, forKey: Keys.goalWakeMinute)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var hasGoalWakeTime: Bool {
-        didSet { UserDefaults.standard.set(hasGoalWakeTime, forKey: Keys.goalWakeIsSet) }
+        didSet {
+            UserDefaults.standard.set(hasGoalWakeTime, forKey: Keys.goalWakeIsSet)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var vibrationEnabled: Bool {
-        didSet { UserDefaults.standard.set(vibrationEnabled, forKey: Keys.vibrationEnabled) }
+        didSet {
+            UserDefaults.standard.set(vibrationEnabled, forKey: Keys.vibrationEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var alarmDuringMissionEnabled: Bool {
-        didSet { UserDefaults.standard.set(alarmDuringMissionEnabled, forKey: Keys.alarmDuringMission) }
+        didSet {
+            UserDefaults.standard.set(alarmDuringMissionEnabled, forKey: Keys.alarmDuringMission)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var snoozeEnabled: Bool {
-        didSet { UserDefaults.standard.set(snoozeEnabled, forKey: Keys.snoozeEnabled) }
+        didSet {
+            UserDefaults.standard.set(snoozeEnabled, forKey: Keys.snoozeEnabled)
+            markCloudSyncNeeded()
+        }
     }
 
     @Published var missionVerificationLevel: MissionVerificationLevel {
-        didSet { UserDefaults.standard.set(missionVerificationLevel.rawValue, forKey: Keys.verificationLevel) }
+        didSet {
+            UserDefaults.standard.set(missionVerificationLevel.rawValue, forKey: Keys.verificationLevel)
+            markCloudSyncNeeded()
+        }
     }
 
     private init() {
@@ -95,4 +116,20 @@ final class AlarmAppSettingsStore: ObservableObject {
     var missionRequirements: MissionRequirements {
         MissionRequirements(verificationLevel: missionVerificationLevel)
     }
+
+#if os(iOS)
+    func applyCloudBackup(_ snapshot: CloudAppSettingsSnapshot) {
+        goalWakeHour = snapshot.goalWakeHour
+        goalWakeMinute = snapshot.goalWakeMinute
+        hasGoalWakeTime = snapshot.hasGoalWakeTime
+        vibrationEnabled = snapshot.vibrationEnabled
+        alarmDuringMissionEnabled = snapshot.alarmDuringMissionEnabled
+        snoozeEnabled = snapshot.snoozeEnabled
+        missionVerificationLevel = snapshot.missionVerificationLevel
+    }
+
+    private func markCloudSyncNeeded() {
+        CloudKitUserDataSync.markLocalDataChanged()
+    }
+#endif
 }

@@ -90,12 +90,26 @@ final class AlarmStore: ObservableObject {
     }
 #endif
 
+    func reloadFromDisk() {
+        guard !isPreview else { return }
+        alarms = Self.loadAlarms(from: fileURL)
+    }
+
     private func persistIfNeeded() {
         guard !isPreview else { return }
         Self.saveAlarms(alarms, to: fileURL)
 #if os(iOS)
+        CloudKitUserDataSync.markLocalDataChanged()
         Task { await ensurePermissionsAndReschedule() }
 #endif
+    }
+
+    static func loadAlarmsFromDisk() -> [Alarm] {
+        loadAlarms(from: alarmsFileURL())
+    }
+
+    static func saveAlarmsToDisk(_ alarms: [Alarm]) {
+        saveAlarms(alarms, to: alarmsFileURL())
     }
 
 #if os(iOS)

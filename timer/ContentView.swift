@@ -64,6 +64,12 @@ struct ContentView: View {
             .onChange(of: accountStore.isSignedIn) { _, signedIn in
                 guard signedIn else { return }
                 applyReturningUserLaunchShortcutsIfNeeded()
+                Task {
+                    await CloudKitUserDataSync.shared.bootstrap(
+                        alarmStore: alarmStore,
+                        wakeHistory: wakeHistory
+                    )
+                }
             }
             .onAppear { handleRootAppear() }
             .task { await retryPresentMissionIfOwed() }
@@ -86,6 +92,14 @@ struct ContentView: View {
     private func handleRootAppear() {
         applyReturningUserLaunchShortcutsIfNeeded()
         Task { await subscriptionStore.refresh() }
+        if accountStore.isSignedIn {
+            Task {
+                await CloudKitUserDataSync.shared.bootstrap(
+                    alarmStore: alarmStore,
+                    wakeHistory: wakeHistory
+                )
+            }
+        }
         presentMissionIfOwed()
         Task { await retryPresentMissionIfOwed() }
     }

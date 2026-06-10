@@ -12,6 +12,7 @@ enum CommitmentStore {
 
     static func markCompleted() {
         hasCompletedCommitment = true
+        CloudKitUserDataSync.markLocalDataChanged()
     }
 
     static func reset() {
