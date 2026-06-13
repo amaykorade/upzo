@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D8EA4962FB501F3008F36A1 /* WakeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F100F1012FB257C7007A95D3 /* WakeCore */; };
 		8D8EA4972FB501F3008F36A1 /* WakeCore in Frameworks */ = {isa = PBXBuildFile; productRef = F100F1022FB257C7007A95D3 /* WakeCore */; };
+		CLRT00032FB501F3008F36A1 /* Clarity in Frameworks */ = {isa = PBXBuildFile; productRef = CLRT00022FB257C7007A95D3 /* Clarity */; };
 		F100F1112FB257C7007A95D3 /* TimerWakeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F100F1042FB257C7007A95D3 /* TimerWakeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D8EA4962FB501F3008F36A1 /* WakeCore in Frameworks */,
+				CLRT00032FB501F3008F36A1 /* Clarity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +139,7 @@
 			name = timer;
 			packageProductDependencies = (
 				F100F1012FB257C7007A95D3 /* WakeCore */,
+				CLRT00022FB257C7007A95D3 /* Clarity */,
 			);
 			productName = timer;
 			productReference = 8D0450E62FB257C7007A95D3 /* timer.app */;
@@ -221,6 +224,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */,
+				CLRT00012FB257C7007A95D3 /* XCRemoteSwiftPackageReference "clarity-apps" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8D0450E72FB257C7007A95D3 /* Products */;
@@ -420,7 +424,7 @@
 				CODE_SIGN_ENTITLEMENTS = timer/timer.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -460,7 +464,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -485,7 +489,7 @@
 				CODE_SIGN_ENTITLEMENTS = timer/timer.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -525,7 +529,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -546,7 +550,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TimerWakeWidgetInfo.plist;
@@ -556,7 +560,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.TimerWakeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -573,7 +577,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TimerWakeWidgetInfo.plist;
@@ -583,7 +587,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.TimerWakeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -600,11 +604,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -621,11 +625,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = A4KU8C88T4;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amay.timer.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -685,6 +689,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		CLRT00012FB257C7007A95D3 /* XCRemoteSwiftPackageReference "clarity-apps" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/clarity-apps";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		F100F1012FB257C7007A95D3 /* WakeCore */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -695,6 +710,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F100F1002FB257C7007A95D3 /* XCLocalSwiftPackageReference "WakeCore" */;
 			productName = WakeCore;
+		};
+		CLRT00022FB257C7007A95D3 /* Clarity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CLRT00012FB257C7007A95D3 /* XCRemoteSwiftPackageReference "clarity-apps" */;
+			productName = Clarity;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

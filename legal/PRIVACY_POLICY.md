@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated:** May 24, 2026
+**Last updated:** June 2, 2026
 
 **App name:** Upzo  
 **Developer:** Amay Ramaling Korade  
@@ -20,6 +20,7 @@ By using the App, you agree to this Privacy Policy. If you do not agree, please 
 - We **do not use** your data for cross-app advertising tracking.
 - Optional **Sign in with Apple** may provide basic account information from Apple if you choose to sign in.
 - **Subscriptions** are processed by Apple; we do not receive your payment card number.
+- We use **Microsoft Clarity** for product analytics (screens and taps) to improve the App—not for selling your data or cross-app ads.
 
 ---
 
@@ -87,6 +88,28 @@ We do **not** intentionally collect:
 
 If you email us at **amaykorade5@gmail.com**, we receive the information you include (such as your email address and message content) so we can respond.
 
+### 2.7 Analytics (Microsoft Clarity)
+
+We use **Microsoft Clarity** ([https://clarity.microsoft.com](https://clarity.microsoft.com)) to understand how users interact with the App so we can improve it.
+
+**What Clarity may collect when you use the App:**
+
+- How you navigate the App (screens viewed, taps, scrolls)
+- Device and app information (for example device model, OS version, app version)
+- Session replay-style recordings of in-app screens (not your iPhone home screen or other apps)
+
+**What Clarity does not receive from us:**
+
+- Your alarm schedules, wake history, or onboarding answers stored on your device
+- Photos, camera feeds, microphone audio, or speech from missions
+- Your Apple ID password or payment card details
+
+**How it is used:** Product analytics and improving the App only. We do **not** use Clarity for cross-app advertising or to sell your data.
+
+**Who processes it:** Microsoft Corporation. See [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement) and [Clarity FAQ](https://learn.microsoft.com/en-us/clarity/faq#privacy).
+
+**Your choices:** Clarity requires an internet connection while you use the App. Contact **amaykorade5@gmail.com** with privacy questions.
+
 ---
 
 ## 3. How we use information
@@ -98,6 +121,7 @@ We use information to:
 - Send notifications you enable
 - Operate optional Sign in with Apple
 - Respond to support requests
+- Understand how the App is used (via Microsoft Clarity) to fix issues and improve features
 - Comply with law and protect our rights
 
 We do **not** use your information for third-party advertising tracking.
@@ -111,6 +135,7 @@ We do **not** sell your personal information.
 We may share information only in these cases:
 
 - **Apple:** App Store distribution, Sign in with Apple, in-app purchases, notifications, and AlarmKit—subject to Apple’s policies.
+- **Microsoft (Clarity):** In-app usage and interaction analytics as described in section 2.7, subject to Microsoft’s privacy policies.
 - **Legal requirements:** If required by law, court order, or to protect safety and rights.
 - **Business transfers:** If we merge or sell assets, with notice where required by law.
 

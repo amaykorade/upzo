@@ -1,4 +1,5 @@
 #if os(iOS)
+import Clarity
 import UIKit
 import UserNotifications
 
@@ -13,8 +14,17 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        initializeClarity()
         bootstrapPendingMissionFromDisk()
         return true
+    }
+
+    private func initializeClarity() {
+        var config = ClarityConfig(projectId: "x6dsfcaydk")
+        #if DEBUG
+        config.logLevel = .verbose
+        #endif
+        ClaritySDK.initialize(config: config)
     }
 
     @MainActor

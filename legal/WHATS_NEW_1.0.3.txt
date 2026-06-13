@@ -1,0 +1,8 @@
+What's New in 1.0.3
+
+• Share your wake-up win — post a branded banner with your cringe line and wake time to social media
+• Object Hunt: shuffle to another random object if you don't have the one assigned
+• Mission success screen stays until you share or dismiss it
+• Reliability and polish improvements
+
+Paste into App Store Connect → Version → What's New in This Version.

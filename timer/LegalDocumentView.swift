@@ -36,6 +36,9 @@ enum LegalDocument {
             **What we do not do**
             We do not sell your personal information. We do not use your data for cross-app advertising tracking.
 
+            **Analytics**
+            We use Microsoft Clarity to understand how the App is used (screens and taps) so we can improve it. Clarity does not receive your alarms, photos, or voice recordings.
+
             **Contact**
             Privacy questions: \(SettingsLinks.supportEmail)
 

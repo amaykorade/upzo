@@ -1,6 +1,6 @@
 PRIVACY POLICY
 
-Last updated: May 24, 2026
+Last updated: June 2, 2026
 
 App name: Upzo
 Developer: Amay Ramaling Korade
@@ -27,6 +27,8 @@ SUMMARY
 - If you choose Sign in with Apple, Apple may share basic account information with us (such as a user ID, and optionally your name or email if you allow it).
 
 - Subscriptions are handled by Apple. We do not receive your credit or debit card number.
+
+- We use Microsoft Clarity for product analytics (screens and taps) to improve the App. We do not sell your data or use Clarity for cross-app ad tracking.
 
 
 1. INFORMATION WE COLLECT AND USE
@@ -95,6 +97,17 @@ We do not intentionally collect:
 If you email amaykorade5@gmail.com, we receive whatever you send us (such as your email address and message) so we can reply.
 
 
+1.7 Analytics (Microsoft Clarity)
+
+We use Microsoft Clarity (https://clarity.microsoft.com) to understand how people use the App so we can improve it.
+
+Clarity may collect: how you navigate the App (screens, taps, scrolls), device and app info, and session replay-style recordings of in-app screens.
+
+Clarity does not receive: your alarm data, wake history, photos, camera feeds, microphone audio, or payment details.
+
+Microsoft processes this data under its privacy policies. Clarity needs an internet connection while you use the App.
+
+
 2. HOW WE USE YOUR INFORMATION
 
 We use information to:
@@ -104,6 +117,7 @@ We use information to:
 - Send notifications you turn on
 - Run optional Sign in with Apple
 - Answer support emails
+- Understand how the App is used (Microsoft Clarity) to improve features
 - Follow the law and protect our rights
 
 We do not use your information for third-party ad tracking.
@@ -116,6 +130,7 @@ We do not sell your personal information.
 We may share information only when:
 
 - Apple needs it for the App Store, Sign in with Apple, payments, notifications, or AlarmKit (under Apple's rules)
+- Microsoft (Clarity) receives in-app usage analytics as described in section 1.7
 - The law requires it (court order, legal process, or safety)
 - Our business is sold or merged (we will give notice where required)
 
