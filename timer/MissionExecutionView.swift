@@ -131,6 +131,8 @@ struct MissionExecutionView: View {
     @State private var isSchedulingSnooze = false
     @State private var showSuccessCelebration = false
     @State private var successCelebrationMessage: String?
+    @State private var successShareSnapshot: MissionShareSnapshot?
+    @State private var successHuntTarget: HuntObject?
 
     private var isStrictMission: Bool {
         !allowsDismissWithoutMission && appSettings.missionVerificationLevel == .strict
@@ -155,12 +157,11 @@ struct MissionExecutionView: View {
             missionShell
                 .allowsHitTesting(!showSuccessCelebration)
 
-            if showSuccessCelebration {
-                MissionSuccessView(
-                    missionTitle: alarm.missionType.title,
-                    celebrationMessage: successCelebrationMessage
-                ) {
+            if showSuccessCelebration, let successShareSnapshot {
+                MissionSuccessView(snapshot: successShareSnapshot) {
                     successCelebrationMessage = nil
+                    successHuntTarget = nil
+                    self.successShareSnapshot = nil
                     onMissionCompleted()
                 }
                 .transition(.opacity.combined(with: .scale(scale: 1.02)))
@@ -315,7 +316,8 @@ struct MissionExecutionView: View {
     }
 
     private func handleObjectHuntComplete(_ target: HuntObject) {
-        successCelebrationMessage = HuntObjectCringeLines.randomLine(for: target)
+        successHuntTarget = target
+        successCelebrationMessage = MissionCringeLines.randomLine(for: .objectHunt, object: target)
         handleMissionComplete()
     }
 
@@ -325,6 +327,16 @@ struct MissionExecutionView: View {
             onMissionCompleted()
             return
         }
+        if successCelebrationMessage == nil {
+            successCelebrationMessage = MissionCringeLines.randomLine(for: alarm.missionType)
+        }
+        let completedAt = Date()
+        successShareSnapshot = MissionShareFormatting.snapshot(
+            missionTitle: alarm.missionType.title,
+            celebrationMessage: successCelebrationMessage ?? alarm.missionType.title,
+            completedAt: completedAt,
+            huntTarget: successHuntTarget
+        )
         MissionDuringAlarmAudio.shared.stop()
         missionStrictHaptics.stop()
         showSuccessCelebration = true

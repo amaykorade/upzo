@@ -3,14 +3,12 @@ import SwiftUI
 import UIKit
 
 struct MissionSuccessView: View {
-    static let autoDismissSeconds: TimeInterval = 5
-
-    let missionTitle: String
-    var celebrationMessage: String?
+    let snapshot: MissionShareSnapshot
     var onFinish: () -> Void
 
     @State private var didFinish = false
-    @State private var autoDismissTask: Task<Void, Never>?
+    @State private var shareImage: UIImage?
+    @State private var showShareSheet = false
 
     var body: some View {
         ZStack {
@@ -29,7 +27,7 @@ struct MissionSuccessView: View {
             .ignoresSafeArea()
             .allowsHitTesting(false)
 
-            VStack(spacing: 24) {
+            VStack(spacing: 22) {
                 AppLogoView(size: 104, style: .appIcon)
                     .shadow(color: .black.opacity(0.35), radius: 16, y: 8)
                     .shadow(color: AppTheme.sunAccent.opacity(0.55), radius: 28, y: 10)
@@ -60,22 +58,55 @@ struct MissionSuccessView: View {
                         )
                 }
 
-                if let celebrationMessage {
-                    Text(celebrationMessage)
+                HStack(spacing: 10) {
+                    Image(systemName: "sunrise.fill")
                         .font(.title3.weight(.semibold))
-                        .foregroundStyle(.white)
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, 8)
-                } else {
-                    Text(missionTitle)
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.white.opacity(0.82))
-                        .padding(.top, 4)
+                        .foregroundStyle(AppTheme.sunAccent)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Woke up at")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.white.opacity(0.55))
+                        Text(snapshot.wakeUpTime)
+                            .font(.title2.weight(.bold).monospacedDigit())
+                            .foregroundStyle(.white)
+                    }
                 }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(Color.white.opacity(0.08))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
+                )
+                .padding(.top, 4)
+
+                Text(snapshot.celebrationMessage)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 8)
+                    .padding(.top, 4)
+
+                MissionShareMissionLabel(snapshot: snapshot, style: .screen)
+                    .padding(.top, 2)
             }
             .padding(.horizontal, 32)
+            .padding(.bottom, 120)
             .allowsHitTesting(false)
+
+            VStack {
+                Spacer()
+                VStack(spacing: 14) {
+                    shareButton
+                    cancelButton
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 40)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .zIndex(2)
@@ -87,25 +118,60 @@ struct MissionSuccessView: View {
                 for: nil
             )
             UINotificationFeedbackGenerator().notificationOccurred(.success)
-            autoDismissTask = Task {
-                try? await Task.sleep(nanoseconds: UInt64(Self.autoDismissSeconds * 1_000_000_000))
-                guard !Task.isCancelled else { return }
-                await MainActor.run {
-                    finish()
-                }
+        }
+        .sheet(isPresented: $showShareSheet, onDismiss: finishAfterShare) {
+            if let shareImage {
+                MissionShareSheet(image: shareImage)
             }
         }
-        .onDisappear {
-            autoDismissTask?.cancel()
-            autoDismissTask = nil
+    }
+
+    private var shareButton: some View {
+        Button(action: openShare) {
+            Label("Share on social", systemImage: "square.and.arrow.up")
+                .font(.headline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .foregroundStyle(.black)
+                .background(AppTheme.sunAccent, in: Capsule())
         }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Share your wake-up on social media")
+    }
+
+    private var cancelButton: some View {
+        Button(action: finish) {
+            Text("Cancel")
+                .font(.headline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .foregroundStyle(.white.opacity(0.88))
+                .background(
+                    Capsule()
+                        .strokeBorder(Color.white.opacity(0.28), lineWidth: 1.5)
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Dismiss success banner")
+    }
+
+    private func openShare() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+
+        guard let image = MissionSocialShare.renderImage(snapshot: snapshot) else { return }
+        shareImage = image
+        showShareSheet = true
+    }
+
+    private func finishAfterShare() {
+        showShareSheet = false
+        shareImage = nil
+        finish()
     }
 
     private func finish() {
         guard !didFinish else { return }
         didFinish = true
-        autoDismissTask?.cancel()
-        autoDismissTask = nil
         onFinish()
     }
 }

@@ -169,8 +169,14 @@ enum HuntObjectCatalog {
         ),
     ]
 
-    static func randomTarget() -> HuntObject {
-        all.randomElement() ?? all[0]
+    static func randomTarget(excluding object: HuntObject? = nil) -> HuntObject {
+        let pool: [HuntObject]
+        if let object {
+            pool = all.filter { $0.id != object.id }
+        } else {
+            pool = all
+        }
+        return pool.randomElement() ?? all[0]
     }
 
     static func object(withId id: String) -> HuntObject? {

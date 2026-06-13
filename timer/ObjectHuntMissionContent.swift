@@ -77,9 +77,23 @@ struct ObjectHuntMissionContent: View {
                     .foregroundStyle(.orange)
                     .multilineTextAlignment(.center)
             }
+
+            shuffleTargetButton
         }
         .padding(.horizontal, 16)
         .padding(.top, 12)
+    }
+
+    private var shuffleTargetButton: some View {
+        Button(action: shuffleTarget) {
+            Label("Don't have this? Try another", systemImage: "dice.fill")
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+        }
+        .buttonStyle(.bordered)
+        .tint(.white)
+        .disabled(phase == .capturing || phase == .verifying)
     }
 
     private var bottomHUD: some View {
@@ -138,11 +152,18 @@ struct ObjectHuntMissionContent: View {
                 .foregroundStyle(Color.accentColor)
             Text(target.displayName)
                 .font(.title3.weight(.bold))
+            shuffleTargetButton
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
         .background(Color.accentColor.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: AppTheme.controlCornerRadius, style: .continuous))
+    }
+
+    private func shuffleTarget() {
+        target = HuntObjectCatalog.randomTarget(excluding: target)
+        phase = .ready
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
     private func captureAndVerify() {

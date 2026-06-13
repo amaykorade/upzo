@@ -9,6 +9,14 @@ final class ObjectHuntVerifierTests: XCTestCase {
         XCTAssertFalse(target.visionLabels.isEmpty)
     }
 
+    func testRandomTargetCanExcludeCurrentObject() {
+        let current = HuntObjectCatalog.object(withId: "coffee_mug")!
+        for _ in 0 ..< 20 {
+            let next = HuntObjectCatalog.randomTarget(excluding: current)
+            XCTAssertNotEqual(next.id, current.id)
+        }
+    }
+
     func testObjectLookupById() {
         XCTAssertEqual(HuntObjectCatalog.object(withId: "coffee_mug")?.displayName, "Coffee mug")
         XCTAssertNil(HuntObjectCatalog.object(withId: "keys"))
